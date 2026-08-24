@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alterna Podcasts. Türkçe Dinle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eff3ee;
+    --card:#ffffff;
+    --ink:#16202a;
+    --muted:#5f6b74;
+    --coral:#ff5a36;
+    --coral-dark:#e2431f;
+    --gold:#ffc93c;
+    --teal:#1f6f5c;
+    --border: rgba(22,32,42,0.1);
+    --shadow: 0 10px 26px rgba(22,32,42,0.09);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.brand-name{font-family:'Sora',system-ui,sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 26px;}
+
+  /* waveform mark */
+  .wave{display:inline-flex;align-items:flex-end;gap:2px;height:16px;}
+  .wave span{width:3px;background:currentColor;border-radius:2px;}
+  .wave span:nth-child(1){height:40%;} .wave span:nth-child(2){height:100%;}
+  .wave span:nth-child(3){height:65%;} .wave span:nth-child(4){height:85%;}
+  .wave span:nth-child(5){height:50%;}
+
+  /* nav */
+  .navbar{position:sticky;top:14px;z-index:60;margin:14px auto 0;max-width:1180px;padding:0 26px;}
+  .navpill{background:#fff;border:1px solid var(--border);border-radius:999px;box-shadow:var(--shadow);
+    display:flex;align-items:center;justify-content:space-between;padding:10px 10px 10px 16px;gap:16px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .logo-mark{width:36px;height:36px;border-radius:11px;background:var(--ink);color:var(--gold);
+    display:flex;align-items:center;justify-content:center;flex:none;}
+  .brand-name{font-weight:800;font-size:15.5px;line-height:1.1;}
+  .brand-sub{font-size:10.5px;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;font-weight:700;}
+  .nav-links{display:flex;gap:4px;}
+  .nav-links button{background:none;border:none;padding:9px 14px;border-radius:999px;font-size:13.5px;font-weight:600;
+    color:var(--muted);cursor:pointer;}
+  .nav-links button.active{background:var(--bg);color:var(--ink);}
+  .random-pill{display:flex;align-items:center;gap:8px;background:var(--coral);color:#fff;font-weight:700;font-size:13.5px;
+    padding:11px 18px;border-radius:999px;border:none;cursor:pointer;box-shadow:0 10px 20px rgba(255,90,54,.35);}
+  .random-pill:hover{background:var(--coral-dark);}
+
+  .view{display:none;padding:40px 0 70px;}
+  .view.active{display:block;}
+
+  /* hero */
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center;}
+  .eyebrow-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+  .eyebrow{background:#fff;border:1px solid var(--border);padding:6px 13px;border-radius:999px;font-size:12px;font-weight:700;}
+  .eyebrow.dark{background:var(--ink);color:#fff;border-color:var(--ink);}
+  h1.headline{font-size:46px;line-height:1.1;font-weight:800;margin:0 0 18px;letter-spacing:-0.01em;}
+  .mark{background:var(--coral);color:#fff;padding:2px 10px;border-radius:8px;display:inline-block;transform:rotate(-1deg);}
+  .lede{font-size:16px;color:var(--muted);max-width:480px;line-height:1.65;margin-bottom:26px;}
+  .hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 22px;border-radius:14px;font-weight:700;font-size:14.5px;
+    border:none;cursor:pointer;}
+  .btn-dark{background:var(--ink);color:#fff;}
+  .btn-ghost{background:#fff;border:1px solid var(--border);color:var(--ink);}
+  .btn-gold{background:var(--gold);color:var(--ink);}
+
+  .collage{position:relative;height:380px;}
+  .collage img{position:absolute;width:150px;height:150px;object-fit:cover;border-radius:20px;box-shadow:0 18px 34px rgba(22,32,42,.22);border:4px solid #fff;}
+  .hero-tile{position:absolute;width:150px;height:150px;border-radius:20px;box-shadow:0 18px 34px rgba(22,32,42,.22);
+    border:4px solid #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+    padding:14px;text-align:center;overflow:hidden;}
+  .hero-tile::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 25%, rgba(255,255,255,.3), transparent 55%);}
+  .ht-mark{position:relative;z-index:2;font-family:'Sora',sans-serif;font-weight:800;font-size:26px;color:#fff;
+    background:rgba(255,255,255,.2);width:52px;height:52px;border-radius:15px;display:flex;align-items:center;
+    justify-content:center;text-shadow:0 2px 8px rgba(0,0,0,.2);}
+  .ht-name{position:relative;z-index:2;font-family:'Sora',sans-serif;font-weight:700;font-size:11.5px;line-height:1.3;
+    color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .collage .c2{width:130px;height:130px;}
+  .collage .c3{width:130px;height:130px;}
+  .cover-art{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;padding:34px 14px 26px;overflow:hidden;text-align:center;}
+  .cover-art::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 25%, rgba(255,255,255,.28), transparent 55%);}
+  .cover-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;}
+  .ca-initials{position:relative;z-index:2;font-family:'Sora',sans-serif;font-weight:800;font-size:34px;
+    color:#fff;line-height:1;letter-spacing:-0.02em;text-shadow:0 2px 10px rgba(0,0,0,.22);
+    background:rgba(255,255,255,.18);width:64px;height:64px;border-radius:18px;
+    display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
+  .ca-name{position:relative;z-index:2;font-family:'Sora',sans-serif;font-weight:700;font-size:12.5px;line-height:1.3;
+    color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .ca-wave{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;
+    gap:4px;height:22px;opacity:.4;}
+  .ca-wave i{display:block;width:4px;background:#fff;border-radius:2px 2px 0 0;}
+  .ca-wave i:nth-child(1){height:30%;} .ca-wave i:nth-child(2){height:65%;} .ca-wave i:nth-child(3){height:42%;}
+  .ca-wave i:nth-child(4){height:85%;} .ca-wave i:nth-child(5){height:50%;} .ca-wave i:nth-child(6){height:70%;}
+  .ca-wave i:nth-child(7){height:35%;}
+  .row-card .cover-art{padding:0;gap:0;}
+  .row-card .ca-name, .row-card .ca-wave, .row-card .cover-art::after{display:none;}
+  .row-card .ca-initials{width:34px;height:34px;border-radius:10px;font-size:14px;background:rgba(255,255,255,.22);}
+  .collage .c1{top:0;left:30px;transform:rotate(-7deg);}
+  .collage .c2{top:20px;right:10px;transform:rotate(6deg);width:130px;height:130px;}
+  .collage .c3{bottom:40px;left:0;transform:rotate(4deg);width:130px;height:130px;}
+  .collage .c4{bottom:0;right:60px;transform:rotate(-5deg);}
+
+  .marquee{overflow:hidden;background:var(--ink);color:var(--gold);padding:14px 0;margin:36px 0;white-space:nowrap;}
+  .marquee-track{display:inline-block;animation:scroll 26s linear infinite;font-family:'Sora';font-weight:700;font-size:18px;letter-spacing:.02em;}
+  .marquee-track span{margin:0 22px;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  .stats-head{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;margin-bottom:26px;}
+  .stats-head h2{font-size:28px;margin:0;line-height:1.2;}
+  .stats-head p{color:var(--muted);font-size:14.5px;line-height:1.65;margin:0;}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .stat-card{border-radius:18px;padding:22px;box-shadow:var(--shadow);}
+  .stat-card b{display:block;font-size:30px;font-family:'IBM Plex Mono';font-weight:600;}
+  .stat-card span{font-size:12.5px;color:var(--muted);}
+  .sc1{background:var(--gold);} .sc2{background:#fff;} .sc3{background:var(--teal);color:#fff;} .sc4{background:#fff;}
+  .sc3 span{color:#cfe9e2;}
+
+  /* catalog toolbar */
+  .toolbar{background:#fff;border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:24px;}
+  .tb-row1{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+  .search-box{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);
+    border-radius:12px;padding:11px 14px;}
+  .search-box input{border:none;outline:none;background:transparent;font-size:13.5px;width:100%;color:var(--ink);}
+  .tb-select{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:9px 12px;}
+  .tb-select label{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;}
+  .tb-select select{border:none;background:transparent;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;}
+  .view-toggle{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:3px;}
+  .view-toggle button{background:none;border:none;padding:8px 14px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;}
+  .view-toggle button.active{background:var(--ink);color:#fff;}
+
+  .level-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;}
+  .lvl-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-right:4px;}
+  .lvl-pill{padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;border:1px solid var(--border);background:#fff;cursor:pointer;color:var(--ink);}
+  .lvl-pill.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  .more-filters-btn{background:none;border:1px dashed var(--border);color:var(--muted);font-size:12.5px;font-weight:600;
+    padding:9px 14px;border-radius:11px;cursor:pointer;margin-bottom:8px;}
+  .more-filters-panel{display:none;padding:12px 0 4px;border-top:1px dashed var(--border);margin-top:8px;}
+  .more-filters-panel.open{display:block;}
+  .f-chip{padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--bg);border:1px solid var(--border);
+    color:var(--muted);cursor:pointer;margin:0 8px 8px 0;display:inline-block;}
+  .f-chip.on{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+
+  .tb-row-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-top:10px;border-top:1px solid var(--border);}
+  .found-pill{font-size:13px;color:var(--muted);}
+  .found-pill b{color:var(--ink);font-family:'IBM Plex Mono';}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:10px;cursor:pointer;}
+  .reset-btn:hover{color:var(--coral);border-color:var(--coral);}
+
+  .level-section{margin-bottom:34px;}
+  .level-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+  .level-head h3{font-size:20px;margin:0;white-space:nowrap;}
+  .level-head hr{flex:1;border:none;border-top:2px solid var(--border);}
+  .level-count{background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;}
+  .card{background:#fff;border-radius:18px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;}
+  .card .cover{position:relative;aspect-ratio:1/1;overflow:hidden;background:#e2e6de;}
+  .card .cover img{width:100%;height:100%;object-fit:cover;display:block;}
+  .badge-row{position:absolute;top:9px;left:9px;right:9px;display:flex;justify-content:space-between;z-index:4;}
+  .b-lvl{background:#fff;color:var(--ink);font-size:11px;font-weight:800;padding:3px 9px;border-radius:7px;}
+  .b-fmt{font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 8px;border-radius:7px;color:#fff;}
+  .fmt-bite{background:var(--teal);} .fmt-short{background:var(--coral);} .fmt-medium{background:#5b5fc7;} .fmt-long{background:#2b2f3a;}
+  .card-body{padding:14px 15px 16px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .card-body h4{font-size:14.5px;margin:0;line-height:1.3;}
+  .card-body .host{font-size:11.5px;color:var(--muted);font-weight:600;}
+  .card-body p{font-size:12.5px;color:var(--muted);line-height:1.55;margin:0;flex:1;}
+  .dur{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .link-row{display:flex;gap:8px;margin-top:6px;}
+  .link-row a{flex:1;text-align:center;padding:8px 0;border-radius:9px;font-size:12px;font-weight:700;background:var(--bg);color:var(--ink);}
+  .link-row a:hover{background:var(--ink);color:#fff;}
+
+  /* list view */
+  .list{display:flex;flex-direction:column;gap:12px;}
+  .row-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;padding:12px 16px;}
+  .row-card .cover{width:64px;height:64px;border-radius:12px;overflow:hidden;flex:none;position:relative;background:#e2e6de;}
+  .row-card .cover img{width:100%;height:100%;object-fit:cover;}
+  .row-info{flex:1;min-width:0;}
+  .row-info h4{font-size:14px;margin:0 0 2px;}
+  .row-info .host{font-size:11.5px;color:var(--muted);font-weight:600;}
+  .row-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:none;}
+  .row-links{display:flex;gap:6px;flex:none;}
+  .row-links a{padding:7px 12px;border-radius:8px;font-size:11.5px;font-weight:700;background:var(--bg);}
+  .row-links a:hover{background:var(--ink);color:#fff;}
+
+  .empty{color:var(--muted);font-size:14px;padding:26px 0;}
+
+  /* how-to / faq */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px;}
+  .step{background:#fff;border-radius:18px;padding:22px;box-shadow:var(--shadow);}
+  .step .snum{font-family:'IBM Plex Mono';font-size:12px;font-weight:600;color:var(--coral);margin-bottom:10px;}
+  .step h3{font-size:15.5px;margin:0 0 8px;}
+  .step p{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0;}
+
+  .faq-item{background:#fff;border-radius:14px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;}
+  .faq-q{display:flex;justify-content:space-between;align-items:center;padding:17px 20px;cursor:pointer;font-weight:700;font-size:14.5px;}
+  .faq-a{padding:0 20px 17px;color:var(--muted);font-size:13.5px;line-height:1.65;display:none;}
+  .faq-item.open .faq-a{display:block;}
+  .faq-q .plus{font-size:20px;color:var(--muted);}
+
+  footer.foot{border-top:1px solid var(--border);padding:26px 0 60px;color:var(--muted);font-size:12.5px;line-height:1.6;max-width:760px;}
+
+  @media (max-width:920px){
+    .hero-grid{grid-template-columns:1fr;}
+    .collage{height:260px;margin-top:20px;}
+    .stats-head{grid-template-columns:1fr;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .steps{grid-template-columns:repeat(2,1fr);}
+    h1.headline{font-size:34px;}
+    .nav-links{order:3;width:100%;justify-content:center;}
+  }
+  @media (max-width:560px){
+    .stat-grid{grid-template-columns:1fr 1fr;}
+    .steps{grid-template-columns:1fr;}
+    .grid{grid-template-columns:1fr 1fr;}
+  }
+
+  /* ============ карта каталога (визуализация) ============ */
+  .mp-head{display:grid;grid-template-columns:1.2fr .8fr;gap:26px;align-items:end;margin-bottom:18px;}
+  .mp-head h2{font-size:28px;margin:0 0 8px;}
+  .mp-head .lede{margin:0;}
+  .mp-time{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:16px 18px;}
+  .mp-time label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:12px;}
+  .mp-time input[type=range]{width:100%;accent-color:var(--coral);cursor:pointer;}
+  .mp-time .tw-out{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.5;}
+  .mp-time .tw-out b{font-family:'IBM Plex Mono';color:var(--ink);font-weight:600;}
+  .mp-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
+  .mp-board{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:14px 18px 8px;overflow-x:auto;}
+  .mp-plot{min-width:620px;}
+  .mp-lane{display:flex;align-items:stretch;gap:14px;border-top:1px dashed var(--border);}
+  .mp-lane:first-child{border-top:none;}
+  .mp-lane-label{width:104px;flex:none;padding:16px 0;}
+  .mp-lane-label b{display:block;font-family:'Sora';font-size:17px;line-height:1.1;}
+  .mp-lane-label span{display:block;font-size:10.5px;color:var(--muted);line-height:1.35;margin-top:3px;}
+  .mp-track{position:relative;flex:1;min-height:56px;}
+  .mp-gl{position:absolute;top:0;bottom:0;width:1px;background:rgba(22,32,42,.055);}
+  .mp-dot{position:absolute;width:24px;height:24px;border-radius:8px;border:none;padding:0;color:#fff;font-size:9px;font-weight:800;
+    font-family:'IBM Plex Mono';display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transform:translate(-50%,0) scale(.2);opacity:0;box-shadow:0 4px 10px rgba(22,32,42,.16);
+    transition:transform .32s cubic-bezier(.2,1.35,.45,1),opacity .3s ease,filter .25s ease;}
+  .mp-dot.in{transform:translate(-50%,0) scale(1);opacity:1;}
+  .mp-dot.in:hover,.mp-dot.in.sel{transform:translate(-50%,-4px) scale(1.28);z-index:8;box-shadow:0 12px 20px rgba(22,32,42,.3);}
+  .mp-dot.in.mute{opacity:.15;filter:grayscale(1);}
+  .mp-dot.in.sel{outline:2px solid var(--ink);outline-offset:2px;}
+  .mp-axis{display:flex;gap:14px;padding:4px 0 10px;}
+  .mp-axis-pad{width:104px;flex:none;}
+  .mp-axis-track{position:relative;flex:1;height:18px;}
+  .mp-axis-track span{position:absolute;transform:translateX(-50%);font-size:10.5px;color:var(--muted);font-family:'IBM Plex Mono';white-space:nowrap;}
+  .mp-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:12px;color:var(--muted);align-items:center;}
+  .mp-legend i{display:inline-block;width:11px;height:11px;border-radius:4px;margin-right:6px;vertical-align:-1px;}
+  .mp-hint{font-size:12px;color:var(--muted);margin-top:10px;}
+  .mp-tip{position:fixed;z-index:120;pointer-events:none;background:var(--ink);color:#fff;border-radius:12px;padding:10px 12px;
+    font-size:12px;line-height:1.5;max-width:250px;opacity:0;transition:opacity .12s ease;box-shadow:0 14px 30px rgba(0,0,0,.28);}
+  .mp-tip.on{opacity:1;}
+  .mp-tip b{display:block;font-size:13px;margin-bottom:3px;font-family:'Sora';}
+  .mp-tip em{font-style:normal;color:#aeb9c1;}
+  .mp-detail{margin-top:16px;background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);
+    padding:16px;display:none;gap:16px;align-items:flex-start;}
+  .mp-detail.on{display:flex;animation:mpUp .34s cubic-bezier(.2,.9,.3,1);}
+  @keyframes mpUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+  .mp-detail .cover{width:92px;height:92px;border-radius:14px;overflow:hidden;flex:none;position:relative;background:#e2e6de;}
+  .mp-detail .cover img{width:100%;height:100%;object-fit:cover;}
+  .mp-d-body{flex:1;min-width:0;}
+  .mp-d-body h4{font-size:16px;margin:0 0 3px;}
+  .mp-d-body .host{font-size:11.5px;color:var(--muted);font-weight:600;}
+  .mp-d-body p{font-size:13px;color:var(--muted);line-height:1.6;margin:8px 0 10px;}
+  .mp-d-meta{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;align-items:center;}
+  .mp-d-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1;padding:2px 4px;flex:none;}
+
+  /* ============ телеграм ============ */
+  .tg-btn{display:inline-flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);color:var(--ink);
+    font-weight:700;font-size:13px;padding:9px 14px;border-radius:999px;cursor:pointer;}
+  .tg-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .about-btn{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--gold);border:none;
+    font-weight:700;font-size:13px;padding:10px 15px;border-radius:999px;cursor:pointer;}
+  .about-btn:hover{background:#0d151c;}
+  .nav-extra{display:flex;gap:8px;align-items:center;}
+  .tg-band{margin:34px 0 8px;background:var(--ink);color:#fff;border-radius:24px;padding:26px 28px;display:flex;
+    align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;position:relative;overflow:hidden;}
+  .tg-band::after{content:"";position:absolute;right:-40px;top:-60px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,201,60,.28),transparent 68%);}
+  .tg-band h3{font-family:'Sora';font-size:21px;margin:0 0 6px;}
+  .tg-band p{margin:0;color:#aeb9c1;font-size:13.5px;line-height:1.6;max-width:520px;}
+  .tg-band .tg-cta{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--ink);font-weight:800;
+    font-size:14px;padding:14px 22px;border-radius:999px;position:relative;z-index:2;white-space:nowrap;}
+  .tg-band .tg-cta:hover{background:#ffd863;}
+
+  /* ============ модалка о проекте Alterna ============ */
+  .alt-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+  .alt-modal.open{display:flex;}
+  .alt-backdrop{position:absolute;inset:0;background:rgba(16,24,32,.62);backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);animation:altFade .3s ease;}
+  @keyframes altFade{from{opacity:0;}to{opacity:1;}}
+  .alt-card{position:relative;width:min(920px,100%);max-height:min(88vh,720px);background:var(--bg);border-radius:28px;
+    overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.4);display:flex;flex-direction:column;
+    animation:altIn .5s cubic-bezier(.2,.95,.3,1);}
+  @keyframes altIn{from{opacity:0;transform:translateY(26px) scale(.95);}to{opacity:1;transform:none;}}
+  .alt-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px 12px;flex:none;}
+  .alt-brand{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);}
+  .alt-brand .logo-mark{width:28px;height:28px;border-radius:9px;}
+  .alt-close{background:#fff;border:1px solid var(--border);width:34px;height:34px;border-radius:50%;cursor:pointer;
+    font-size:15px;color:var(--muted);line-height:1;display:flex;align-items:center;justify-content:center;flex:none;}
+  .alt-close:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .alt-bar{height:3px;background:rgba(22,32,42,.09);margin:0 20px;border-radius:3px;overflow:hidden;flex:none;}
+  .alt-bar i{display:block;height:100%;width:0;background:var(--coral);border-radius:3px;}
+  .alt-stage{position:relative;flex:1;overflow-y:auto;padding:8px 30px 10px;}
+  .alt-scene{display:none;animation:altSc .45s cubic-bezier(.2,.9,.3,1);}
+  .alt-scene.on{display:block;}
+  @keyframes altSc{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .alt-kicker{font-family:'IBM Plex Mono';font-size:11.5px;font-weight:600;color:var(--coral);letter-spacing:.06em;
+    text-transform:uppercase;margin:14px 0 10px;}
+  .alt-scene h3{font-family:'Sora';font-size:clamp(23px,3.4vw,34px);line-height:1.15;margin:0 0 14px;max-width:680px;}
+  .alt-scene h3 .w{display:inline-block;opacity:0;transform:translateY(14px);}
+  .alt-scene.on h3 .w{animation:altW .55s cubic-bezier(.2,.95,.3,1) forwards;}
+  @keyframes altW{to{opacity:1;transform:none;}}
+  .alt-scene p.alt-lede{font-size:14.5px;color:var(--muted);line-height:1.7;margin:0 0 6px;max-width:660px;}
+  .alt-hl{background:linear-gradient(180deg,transparent 62%,var(--gold) 62%);padding:0 3px;}
+  .alt-route{width:100%;height:auto;display:block;margin:2px 0 4px;}
+  .alt-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 6px;}
+  .alt-pill{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);}
+  .alt-scene.on .alt-pill{animation:altW .5s cubic-bezier(.2,.95,.3,1) forwards;}
+  .alt-pill .n{font-family:'IBM Plex Mono';font-size:12px;color:var(--coral);font-weight:600;margin-bottom:9px;}
+  .alt-pill h4{font-family:'Sora';font-size:15.5px;margin:0 0 7px;}
+  .alt-pill p{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0;}
+  .alt-final{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:center;margin:14px 0 6px;}
+  .alt-tgbox{background:var(--ink);color:#fff;border-radius:22px;padding:22px;position:relative;overflow:hidden;}
+  .alt-tgbox::after{content:"";position:absolute;right:-50px;bottom:-70px;width:190px;height:190px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,201,60,.3),transparent 70%);}
+  .alt-tgbox h4{font-family:'Sora';font-size:17px;margin:0 0 8px;position:relative;z-index:2;}
+  .alt-tgbox p{font-size:12.5px;color:#aeb9c1;line-height:1.6;margin:0 0 14px;position:relative;z-index:2;}
+  .alt-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px 18px;flex-wrap:wrap;flex:none;}
+  .alt-dots{display:flex;gap:7px;}
+  .alt-dots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(22,32,42,.18);cursor:pointer;padding:0;}
+  .alt-dots button.on{background:var(--coral);width:22px;border-radius:5px;}
+  .alt-nav{display:flex;gap:9px;}
+  .alt-nav button{border-radius:999px;padding:11px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:1px solid var(--border);
+    background:#fff;color:var(--ink);}
+  .alt-nav button.prim{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .alt-nav button.prim:hover{background:var(--coral);border-color:var(--coral);}
+  .alt-nav button:disabled{opacity:.4;cursor:default;}
+
+  @media (max-width:920px){
+    .mp-head{grid-template-columns:1fr;}
+    .alt-pillars{grid-template-columns:1fr;}
+    .alt-final{grid-template-columns:1fr;}
+    .alt-stage{padding:6px 20px 8px;}
+    .tg-band{padding:22px;}
+  }
+  @media (max-width:560px){
+    .mp-detail{flex-wrap:wrap;}
+    .alt-card{border-radius:22px;max-height:92vh;}
+    .alt-actions{padding:10px 16px 14px;}
+    .nav-extra .lbl{display:none;}
+    .nav-extra{gap:6px;}
+    .nav-extra .about-btn,.nav-extra .tg-btn{padding:9px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .mp-dot,.alt-scene,.alt-card,.alt-backdrop{animation:none!important;transition:none!important;}
+    .alt-scene h3 .w,.alt-pill{opacity:1!important;transform:none!important;animation:none!important;}
+  }
+  .mp-axis{min-width:620px;}
+  .mp-detail .cover .cover-art{padding:0;gap:0;}
+  .mp-detail .cover .ca-name,.mp-detail .cover .ca-wave{display:none;}
+  .mp-detail .cover .ca-initials{width:46px;height:46px;border-radius:14px;font-size:19px;}
+  .mp-lane-label{position:sticky;left:0;background:#fff;z-index:6;padding-right:8px;}
+  .mp-axis-pad{position:sticky;left:0;background:#fff;z-index:6;}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="navpill">
+    <div class="brand">
+      <div class="logo-mark"><span class="wave"><span></span><span></span><span></span><span></span><span></span></span></div>
+      <div><div class="brand-name">Alterna Podcasts</div><div class="brand-sub">Türkçe dinle</div></div>
+    </div>
+    <div class="nav-links" id="navLinks"></div>
+    <div class="nav-extra">
+      <button class="about-btn" onclick="openAlterna(0)" title="Что такое Alterna">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.6L19.5 9l-4.4 3.6 1.4 5.8L12 15.3 7.5 18.4l1.4-5.8L4.5 9l5.6-1.4L12 2z"/></svg>
+        <span class="lbl">Что такое Alterna</span>
+      </button>
+      <a class="tg-btn" href="https://t.me/timaxmetov" target="_blank" rel="noopener" title="Alterna в Telegram">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        <span class="lbl">Telegram</span>
+      </a>
+    </div>
+    <button class="random-pill" onclick="randomPodcast()">
+      <span class="wave"><span></span><span></span><span></span><span></span><span></span></span>
+      Случайный подкаст
+    </button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="view" id="view-home">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow-row">
+          <span class="eyebrow dark">A1 · A2 · B1 · B2 · C1</span>
+          <span class="eyebrow">Обновлено · 2026</span>
+        </div>
+        <h1 class="headline">Начни <span class="mark">слышать</span> турецкий в наушниках</h1>
+        <p class="lede">Проверенные вручную подкасты для изучения турецкого: от бытовых фраз для новичков до настоящих турецких радиопередач для тех, кто почти как носитель.</p>
+        <div class="hero-cta">
+          <button class="btn btn-dark" onclick="setView('catalog')">Смотреть каталог</button>
+          <button class="btn btn-ghost" onclick="setView('howto')">Как это работает</button>
+          <button class="btn btn-gold" onclick="openAlterna(0)">Что такое Alterna</button>
+        </div>
+      </div>
+      <div class="collage">
+        <div class="c1 hero-tile" style="background:linear-gradient(135deg,#ffb37a,#ff5a36)">
+          <span class="ht-mark">TC</span><span class="ht-name">TurkishClass101</span>
+        </div>
+        <div class="c2 hero-tile" style="background:linear-gradient(135deg,#a7c7ff,#5b5fc7)">
+          <span class="ht-mark">EB</span><span class="ht-name">Podcast with Ebru</span>
+        </div>
+        <div class="c3 hero-tile" style="background:linear-gradient(135deg,#7fd9c4,#1f6f5c)">
+          <span class="ht-mark">LB</span><span class="ht-name">LinguaBoost</span>
+        </div>
+        <div class="c4 hero-tile" style="background:linear-gradient(135deg,#ffe08a,#ffc93c)">
+          <span class="ht-mark">OS</span><span class="ht-name">Ortamlarda Satılacak Bilgi</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee"><div class="marquee-track" id="marqueeTrack"></div></div>
+
+    <div class="stats-head">
+      <h2>Слушать осмысленно, а не просто фоном</h2>
+      <p>Каждый подкаст размечен по уровню, формату и длительности выпусков, чтобы можно было собрать список ровно под свою ситуацию: пятнадцать минут в дороге или час на пробежке.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card sc1"><b id="statTotal">0</b><span>подкастов в каталоге</span></div>
+      <div class="stat-card sc2"><b id="statRange">-</b><span>от коротких до длинных выпусков</span></div>
+      <div class="stat-card sc3"><b>5</b><span>уровней CEFR, от A1 до C1</span></div>
+      <div class="stat-card sc4"><b id="statFormats">0</b><span>форматов по длительности</span></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-catalog">
+    <div class="toolbar">
+      <div class="tb-row1">
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="searchInput" type="text" placeholder="Название, ведущий, тема...">
+        </div>
+        <div class="tb-select"><label>Сортировка</label>
+          <select id="sortSelect" onchange="setSort(this.value)">
+            <option value="name-asc">По названию (А-Я)</option>
+            <option value="name-desc">По названию (Я-А)</option>
+            <option value="dur-asc">Сначала короткие</option>
+            <option value="dur-desc">Сначала длинные</option>
+            <option value="format">По формату</option>
+          </select>
+        </div>
+        <div class="tb-select"><label>Группировка</label>
+          <select id="groupSelect" onchange="setGroup(this.value)">
+            <option value="none">Без группировки</option>
+            <option value="format">По формату</option>
+          </select>
+        </div>
+        <div class="view-toggle">
+          <button id="btnGrid" class="active" onclick="setViewMode('grid')">▦ Плитка</button>
+          <button id="btnList" onclick="setViewMode('list')">☰ Список</button>
+        </div>
+      </div>
+
+      <div class="level-pills" id="levelPills"><span class="lvl-label">Уровень</span></div>
+
+      <button class="more-filters-btn" onclick="toggleMoreFilters()">Ещё фильтры (формат) ▾</button>
+      <div class="more-filters-panel" id="moreFilters"></div>
+
+      <div class="tb-row-bottom">
+        <div class="found-pill">Найдено <b id="foundNum">0</b> подкастов</div>
+        <button class="reset-btn" onclick="resetFilters()">Сбросить фильтры</button>
+      </div>
+    </div>
+
+    <div id="catalogBody"></div>
+  </section>
+
+  <section class="view" id="view-map">
+    <div class="mp-head">
+      <div>
+        <h2>Карта каталога</h2>
+        <p class="lede">Весь каталог на одной картинке. По горизонтали — средняя длина выпуска, по вертикали — уровень языка. Наведите на точку, чтобы увидеть подкаст, нажмите — откроются описание и ссылки.</p>
+      </div>
+      <div class="mp-time">
+        <label>Сколько у вас времени сегодня?</label>
+        <input id="mpRange" type="range" min="5" max="60" step="1" value="60" oninput="mpTime(this.value)">
+        <div class="tw-out">До <b id="mpTimeVal">60</b> минут на выпуск · подходит <b id="mpTimeFit">0</b> подкастов из <b id="mpTimeAll">0</b></div>
+      </div>
+    </div>
+
+    <div class="mp-chips" id="mpChips"></div>
+
+    <div class="mp-board">
+      <div class="mp-plot" id="mpPlot"></div>
+      <div class="mp-axis">
+        <div class="mp-axis-pad"></div>
+        <div class="mp-axis-track" id="mpAxis"></div>
+      </div>
+    </div>
+
+    <div class="mp-legend">
+      <span><i style="background:var(--teal)"></i>Совсем короткий</span>
+      <span><i style="background:var(--coral)"></i>Короткий</span>
+      <span><i style="background:#5b5fc7"></i>Средний</span>
+      <span><i style="background:#2b2f3a"></i>Длинный</span>
+    </div>
+    <div class="mp-hint">Подкаст, который подходит нескольким уровням, стоит точкой на каждой из своих линий. На телефоне карту можно листать вбок.</div>
+
+    <div class="mp-detail" id="mpDetail"></div>
+  </section>
+
+  <section class="view" id="view-howto">
+    <h2 style="font-size:28px;margin-bottom:8px;">Как слушать, чтобы это сработало</h2>
+    <p class="lede">Подкаст на фоне не учит языку. Работает другой цикл, четыре шага, примерно 15-20 минут в день.</p>
+    <div class="steps">
+      <div class="step"><div class="snum">ШАГ 01</div><h3>Выбрать по уровню</h3><p>Понимаете 70-80 процентов на слух? Подкаст ваш. Меньше половины? Берите уровень ниже, это нормально.</p></div>
+      <div class="step"><div class="snum">ШАГ 02</div><h3>Слушать без текста</h3><p>Первый раз без транскрипта, на слух. Не пытайтесь понять каждое слово, ловите общий смысл.</p></div>
+      <div class="step"><div class="snum">ШАГ 03</div><h3>Слушать повторно</h3><p>Второй раз тот же выпуск, если у подкаста есть транскрипт на сайте, сверьтесь с ним.</p></div>
+      <div class="step"><div class="snum">ШАГ 04</div><h3>Повторить одну фразу</h3><p>Возьмите одну фразу из выпуска и проговорите вслух несколько раз, это ставит интонацию.</p></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-faq">
+    <h2 style="font-size:28px;margin-bottom:16px;">Частые вопросы</h2>
+    <div id="faqList"></div>
+  </section>
+
+  <div class="tg-band">
+    <div style="position:relative;z-index:2;">
+      <h3>Alterna в Telegram</h3>
+      <p>Фраза дня, разборы турецких выражений, анонсы разговорных клубов и новые подкасты в каталоге. Плюс можно просто написать и спросить про обучение.</p>
+    </div>
+    <a class="tg-cta" href="https://t.me/timaxmetov" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      Открыть Telegram
+    </a>
+  </div>
+
+  <footer class="foot">
+    Каталог собран и проверен вручную командой Alterna. Мы показываем только те подкасты, ссылки на которые мы проверили сами, изображения обложек и ссылки на прослушивание берутся напрямую из Apple Podcasts и Spotify.
+  </footer>
+</div>
+
+<div class="alt-modal" id="altModal" aria-hidden="true">
+  <div class="alt-backdrop" onclick="closeAlterna()"></div>
+  <div class="alt-card" role="dialog" aria-modal="true" aria-label="О проекте Alterna">
+
+    <div class="alt-top">
+      <div class="alt-brand">
+        <span class="logo-mark"><span class="wave"><span></span><span></span><span></span><span></span><span></span></span></span>
+        Alterna · школа турецкого
+      </div>
+      <button class="alt-close" onclick="closeAlterna()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="alt-bar"><i id="altBar"></i></div>
+
+    <div class="alt-stage" id="altStage">
+
+      <div class="alt-scene" data-sc="0">
+        <div class="alt-kicker">Зачем всё это</div>
+        <h3 data-words>Турецкий — не предмет в расписании. Это <span class="alt-hl">маршрут</span> по стране.</h3>
+        <p class="alt-lede">Alterna — школа турецкого нового поколения. Мы не проходим параграфы по учебнику: каждый уровень языка здесь — это город Турции, а каждый сданный экзамен — билет в следующий. Язык учится не ради оценки, а ради того, чтобы жить в стране, понимать людей и не переводить в голове.</p>
+        <div class="alt-pillars" style="grid-template-columns:repeat(3,1fr);">
+          <div class="alt-pill" style="animation-delay:.35s"><div class="n">01</div><h4>Города вместо уроков</h4><p>Стамбул, Измир, Анталья, Анкара. Продвигаетесь по языку — продвигаетесь по карте.</p></div>
+          <div class="alt-pill" style="animation-delay:.5s"><div class="n">02</div><h4>Живая практика</h4><p>Разговорный клуб три раза в неделю: говорить с первого месяца, а не через год.</p></div>
+          <div class="alt-pill" style="animation-delay:.65s"><div class="n">03</div><h4>Свободные материалы</h4><p>Этот каталог подкастов — открытая часть Alterna, слушать можно без подписки.</p></div>
+        </div>
+      </div>
+
+      <div class="alt-scene" data-sc="1">
+        <div class="alt-kicker">Маршрут</div>
+        <h3 data-words>От первых слов до речи, которую не нужно переводить</h3>
+        <svg class="alt-route" id="altRoute" viewBox="-6 55 632 140" role="img" aria-label="Маршрут по городам Турции: Стамбул, Измир, Анталья, Анкара и свободный турецкий">
+          <path id="altPathBase" d="M55,172 C120,200 150,118 220,130 C290,142 300,86 370,96 C435,105 460,72 520,78" fill="none" stroke="rgba(22,32,42,.14)" stroke-width="2.5" stroke-dasharray="5 9" stroke-linecap="round"/>
+          <path id="altPath" d="M55,172 C120,200 150,118 220,130 C290,142 300,86 370,96 C435,105 460,72 520,78" fill="none" stroke="#ff5a36" stroke-width="3" stroke-linecap="round"/>
+          <g id="altPins"></g>
+          <g id="altPlane" opacity="0"><path d="M0,-8 L17,0 L0,8 L5,0 Z" fill="#16202a"/></g>
+        </svg>
+        <p class="alt-lede">Стамбул — первые фразы и алфавит. Измир — быт, магазины, соседи. Анталья — свободный разговор на любую тему. Анкара — учёба и работа по-турецки. Финальная точка — уровень, на котором турецкий перестаёт быть иностранным.</p>
+      </div>
+
+      <div class="alt-scene" data-sc="2">
+        <div class="alt-kicker">Как устроено</div>
+        <h3 data-words>Теория, практика, экзамен — и следующий город открыт</h3>
+        <div class="alt-pillars">
+          <div class="alt-pill" style="animation-delay:.15s"><div class="n">ШАГ 01</div><h4>Теория в Notion</h4><p>Вся грамматика разложена по уровням и доступна в любое время. Заниматься можно в своём темпе, материалы обновляются.</p></div>
+          <div class="alt-pill" style="animation-delay:.3s"><div class="n">ШАГ 02</div><h4>Разговорный клуб</h4><p>Практика три раза в неделю с преподавателями. Языковой барьер уходит незаметно, потому что говорить приходится сразу.</p></div>
+          <div class="alt-pill" style="animation-delay:.45s"><div class="n">ШАГ 03</div><h4>Экзамен как билет</h4><p>В конце уровня внутренний экзамен. Сдали — на карте открывается новый город и новый пакет материалов.</p></div>
+        </div>
+        <p class="alt-lede" style="margin-top:16px;">Так учёба превращается в путешествие с понятной целью: не «дойти до 14 урока», а «долететь до Анкары».</p>
+      </div>
+
+      <div class="alt-scene" data-sc="3">
+        <div class="alt-kicker">Между городами</div>
+        <h3 data-words>Этот каталог — ваша ежедневная практика слуха</h3>
+        <div class="alt-final">
+          <div>
+            <p class="alt-lede"><b id="altCount">50</b> подкастов, отобранных и проверенных вручную, размеченных по уровням CEFR и длине выпуска. 15 минут в наушниках каждый день делают для понимания больше, чем один долгий урок в неделю.</p>
+            <div class="hero-cta" style="margin-top:14px;">
+              <button class="btn btn-dark" onclick="closeAlterna();setView('catalog')">Смотреть каталог</button>
+              <button class="btn btn-ghost" onclick="closeAlterna();setView('map')">Открыть карту</button>
+            </div>
+          </div>
+          <div class="alt-tgbox">
+            <h4>Дальше — в Telegram</h4>
+            <p>Фраза дня, разборы выражений, анонсы разговорных клубов и запись на обучение в Alterna. Там же можно задать любой вопрос про язык.</p>
+            <a class="tg-cta" style="position:relative;z-index:2;display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--ink);font-weight:800;font-size:14px;padding:13px 20px;border-radius:999px;" href="https://t.me/timaxmetov" target="_blank" rel="noopener">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+              Открыть Telegram
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="alt-actions">
+      <div class="alt-dots" id="altDots"></div>
+      <div class="alt-nav">
+        <button id="altPrev" onclick="altGo(altStep-1,true)">Назад</button>
+        <button id="altNext" class="prim" onclick="altNextClick()">Дальше</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const FMT = {bite:"Совсем короткий",short:"Короткий",medium:"Средний",long:"Длинный"};
+const FMT_MIN = {bite:0,short:1,medium:2,long:3};
+
+const POD = {
+  tc101pod:{name:"TurkishClass101",host:"TurkishClass101.com",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/a8/4b/b8/a84bb81d-1fd2-2081-28dc-a37c39203f58/mza_2139251772575060203.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-turkishclass101-com/id535704693",spotify:"https://open.spotify.com/show/7a8JaYQDBhv6Lhpj6Z4h8O",dur:6,fmt:"bite",levels:["A1","A2","B1"],desc:"Ежедневные короткие аудиоуроки: лексика по темам, грамматика и культурные заметки для разных уровней."},
+  linguaboost:{name:"LinguaBoost Turkish",host:"LinguaBoost",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/ec/f9/16/ecf9161f-ed3b-b415-31a9-762b91e86eb2/mza_10452435451601766084.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-linguaboost/id1497588013",spotify:"https://open.spotify.com/show/44WyS6N8aSIDGG302LqyIf",dur:12,fmt:"short",levels:["A1","A2"],desc:"Бытовые фразы по темам с переводом и озвучкой носителей языка."},
+  letslearn:{name:"Let's Learn Turkish",host:"Мельтем",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/6d/6e/a9/6d6ea92f-f879-4c11-7caa-d03ddbcada95/mza_15517304711893973721.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/lets-learn-turkish/id1354476540",spotify:"https://open.spotify.com/show/0uV0CuvikoZhJU01Q4iaDg",dur:8,fmt:"bite",levels:["A1","A2"],desc:"Дружелюбные короткие выпуски для новичков от носительницы языка из Стамбула."},
+  turkishwithcanpod:{name:"Turkish with Can",host:"Istanbul with Can",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts114/v4/12/8f/63/128f63f6-40c6-f8fc-b941-985f313125d0/mza_8520524898946714396.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-with-can/id1526321836",spotify:"https://open.spotify.com/show/5Paw7FikmElvCMmLNqA4XU",dur:16,fmt:"short",levels:["A2","B1"],desc:"Разговорная практика: базовые глаголы, конструкции и лексика для уверенного старта."},
+  ngpod:{name:"Learn Turkish With NG",host:"Nandita",img:null,apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-ng/id1547116579",spotify:"https://open.spotify.com/show/2YcqPnVeFROkXXMw3xHopo",dur:6,fmt:"bite",levels:["A1","A2"],desc:"Короткие выпуски о турецком языке и культуре для только начинающих."},
+  turkishaholicpod:{name:"Learn Turkish with Turkishaholic",host:"Turkishaholic",img:null,apple:"https://podcasts.apple.com/na/podcast/learn-turkish-with-turkishaholic/id1598288493",dur:21,fmt:"medium",levels:["A2","B1"],desc:"Истории и диалоги для начинающих и среднего уровня с разбором грамматики после каждой."},
+  coffeepod:{name:"Turkish Coffee Podcast",host:"Learn Turkish with Turkish Coffee",img:null,apple:"https://podcasts.apple.com/us/podcast/learn-turkish-intermediate-turkish-coffee-podcast/id1465059752",spotify:"https://open.spotify.com/show/42oBt22l4yXvMOWxUBeV1k",dur:12,fmt:"short",levels:["B1","B2"],desc:"Полностью на турецком, для среднего уровня, медленная речь и бытовые темы с транскриптом на сайте."},
+  easypod:{name:"Easy Turkish Podcast",host:"Easy Languages",img:null,apple:"https://podcasts.apple.com/tr/podcast/easy-turkish-learn-turkish-with-everyday-conversations/id1633455697",spotify:"https://open.spotify.com/show/4hi5TQ2gXwetxWYv23WDyl",dur:19,fmt:"short",levels:["B1","B2"],desc:"Обсуждение тем, идиом и фильмов на турецком, для тех, кто уже понимает разговорную речь."},
+  newslab:{name:"NewsLabTurkey",host:"Öykü Güley",img:null,apple:"https://podcasts.apple.com/us/podcast/newslabturkey/id1497003788",spotify:"https://open.spotify.com/show/3RumoJoh5hdkndovsOwkIA",dur:15,fmt:"short",levels:["B2","C1"],desc:"Разговоры о журналистике и медиа в Турции, естественная разговорная речь."},
+  acikdergi:{name:"Açık Dergi",host:"Açık Radyo",img:null,apple:"https://podcasts.apple.com/tr/podcast/a%C3%A7%C4%B1k-dergi/id553475857",spotify:"https://open.spotify.com/show/5MUruDrlICYYDz0uvJsIr1",dur:29,fmt:"medium",levels:["B2","C1"],desc:"Настоящая турецкая радиопередача о культуре и жизни Стамбула, без адаптации для учащихся."},
+  bilgisel:{name:"Bilgisel",host:"Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/bilgisel/id1629397256",spotify:"https://open.spotify.com/show/21Av2HeI7KVLKH1UZZwHub",dur:23,fmt:"medium",levels:["C1"],desc:"Исторические и культурные события Турции, документальный стиль повествования."},
+  edebiyat:{name:"Modern Türk Edebiyatı Okumaları",host:"Selçuk Atay",img:null,apple:"https://podcasts.apple.com/tr/podcast/modern-t%C3%BCrk-edebiyat%C4%B1-okumalar%C4%B1/id1615230515",spotify:"https://open.spotify.com/show/5pYLkE42pYpEpz1qI5TwLn",dur:19,fmt:"short",levels:["C1"],desc:"Чтение произведений современной турецкой литературы вслух, литературный язык."},
+  oksijen:{name:"Oksijen Podcast",host:"Oksijen",img:null,apple:"https://podcasts.apple.com/tr/podcast/oksijen-podcast/id1757226151",spotify:"https://open.spotify.com/show/0M0TFoMBxDJXeOwIrlYT9T",dur:39,fmt:"medium",levels:["C1"],desc:"Турецкая журналистика и аналитика на актуальные темы, естественный темп речи."},
+  cevheri:{name:"Cevheri Güven",host:"Cevheri Güven",img:null,apple:"https://podcasts.apple.com/tr/podcast/cevheri-g%C3%BCven/id1597869830",dur:47,fmt:"long",levels:["C1"],desc:"Длинные монологи и комментарии на турецком, хороший вызов для продвинутого уровня."},
+  turkishconv:{name:"Turkish Conversation",host:"Turkish Conversation",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts124/v4/a8/58/d5/a858d5d8-9def-53a8-48b7-f1da50e7c68e/mza_10638510014979878137.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-conversation/id1561753498",dur:14,fmt:"short",levels:["A1","A2","B1"],desc:"Бесплатный курс через диалоги: короткие уроки уровня A1 с повтором фраз за диктором."},
+  stories:{name:"Learn Turkish With Stories",host:"Emre Höçük",img:null,apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-stories/id1681456347",dur:13,fmt:"short",levels:["A2","B1"],desc:"Обучение через короткие истории на турецком с разбором лексики и грамматики."},
+  accelerator:{name:"Turkish Learning Accelerator",host:"Turkish Learning Accelerator",img:null,apple:"https://podcasts.apple.com/us/podcast/turkish-learning-accelerator/id1702419715",dur:10,fmt:"bite",levels:["A1","A2"],desc:"Регулярные короткие уроки для быстрого набора базового словарного запаса."},
+  beyoglu:{name:"Beyoğlu Beyoğlu",host:"Sportspub",img:null,apple:"https://podcasts.apple.com/us/podcast/beyo%C4%9Flu-beyo%C4%9Flu/id1683126646",dur:56,fmt:"long",levels:["C1"],desc:"Еженедельные разговоры о футболе и Галатасарае на естественном турецком."},
+  ikilioyun:{name:"İkili Oyun",host:"Medyascope Spor",img:null,apple:"https://podcasts.apple.com/us/podcast/i-kili-oyun/id1659008297",dur:46,fmt:"long",levels:["C1"],desc:"Разговоры о баскетболе, Евролиге и NBA на турецком языке носителей."},
+  viveka:{name:"Viveka Podcast",host:"Viveka",img:null,apple:"https://podcasts.apple.com/us/podcast/viveka-podcast/id1513434172",dur:11,fmt:"short",levels:["B2","C1"],desc:"Разговоры о турецких стартапах и предпринимательстве, более формальная лексика."},
+  bunlarkonu:{name:"Bunları Konuşalım Ya",host:"Bunları Konuşalım Ya",img:null,apple:"https://podcasts.apple.com/us/podcast/bunlar%C4%B1-konu%C5%9Fal%C4%B1m-ya/id1509986473",dur:35,fmt:"medium",levels:["C1"],desc:"Разговоры о спорте, культуре и обществе, естественная беглая речь."},
+  ussalsahbaz:{name:"Ussal Şahbaz ile Global İşler",host:"Wand Podcast Network",img:null,apple:"https://podcasts.apple.com/tr/podcast/ussal-%C5%9Fahbaz-ile-global-i-%C5%9Fler/id1672506404",dur:30,fmt:"medium",levels:["C1"],desc:"Технологии, общество и политика на турецком для продвинутого уровня понимания."},
+  ebru:{name:"Turkish Podcast with Ebru",host:"Ebru Sarıkaya",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/38/cc/f9/38ccf9eb-cfa0-6b33-92b6-18819df084d5/mza_6949256734955385624.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-podcast-with-ebru-intermediate-level-ebru-ile/id1766817732",dur:11,fmt:"short",levels:["A2","B1","B2"],desc:"Преподаватель Эбру рассказывает истории и темы на медленном, естественном турецком, с грамматическими вставками."},
+  theturkishpodcast:{name:"The Turkish Podcast",host:"The Turkish Podcast",img:null,apple:"https://podcasts.apple.com/tr/podcast/the-turkish-podcast/id1555712283",dur:15,fmt:"short",levels:["A2","B1","B2"],desc:"Понятный контент для учащихся всех уровней, на сайте авторов выложены транскрипты к выпускам."},
+  absbeginner:{name:"Learn Turkish, Absolute Beginner",host:"TurkishClass101.com",img:null,apple:"https://podcasts.apple.com/gb/podcast/learn-turkish-absolute-beginner/id1582672110",dur:12,fmt:"short",levels:["A1","A2"],desc:"Разбор реальных диалогов для самых начинающих: сначала диалог, затем медленный разбор каждого слова."},
+  turkcedunyasi:{name:"Türkçe Dünyası",host:"İbrahim Ercan",img:null,apple:"https://podcasts.apple.com/us/podcast/t%C3%BCrk%C3%A7e-d%C3%BCnyas%C4%B1-learn-turkish/id1063142617",dur:13,fmt:"short",levels:["A1","A2"],desc:"Аудио и видео подкасты для изучающих турецкий как иностранный, на открытых образовательных материалах."},
+  tli:{name:"Turkish Language Institute Podcast",host:"Turkish Language",img:null,apple:"https://podcasts.apple.com/us/podcast/turkish-language-institutes-podcast/id794146609",dur:10,fmt:"bite",levels:["A2","B1"],desc:"Аудиоприложение к учебнику Dilden Kalbe Türkçe, полностью на турецком, без английских вставок."},
+  ortamlarda:{name:"Ortamlarda Satılacak Bilgi",host:"Podcast BPT",img:null,apple:"https://podcasts.apple.com/tr/podcast/ortamlarda-sat%C4%B1lacak-bilgi/id1549686147",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Первый по популярности подкаст Турции: психология и саморазвитие, спокойный монолог с чёткой дикцией."},
+  yuzonbirhz:{name:"111 Hz",host:"Barış Özcan, Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/111-hz/id1574497387",dur:26,fmt:"medium",levels:["B2","C1"],desc:"Барыш Озджан о культуре, кино и идеях: очень чёткая речь, удобная для тренировки понимания."},
+  acaibgaraib:{name:"Tarihte Acaib ve Garaib",host:"Mustafa B. Bozkurt, Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/tarihte-acaib-ve-garaib/id1835433878",dur:25,fmt:"medium",levels:["B2","C1"],desc:"Странные и удивительные истории из прошлого, документальная подача с размеренным темпом речи."},
+  yoldayiz:{name:"Yoldayız, Geliyor musun?",host:"Ece Targıt",img:null,apple:"https://podcasts.apple.com/tr/podcast/yoldayiz-geliyor-musun/id1388986371",dur:14,fmt:"short",levels:["B1","B2","C1"],desc:"Спокойные размышления о психологии и жизни, короткие выпуски, размеренная речь."},
+  merdivenalti:{name:"Merdiven Altı Terapi",host:"Deniz Dülgeroğlu",img:null,apple:"https://podcasts.apple.com/tr/podcast/merdiven-alt%C4%B1-terapi/id1497612287",dur:35,fmt:"medium",levels:["B2","C1"],desc:"Один из самых слушаемых подкастов Турции о психологии и отношениях, живой разговорный язык."},
+  meksika:{name:"Meksika Açmazı",host:"Karnaval",img:null,apple:"https://podcasts.apple.com/tr/podcast/meksika-a%C3%A7maz%C4%B1/id1585156719",dur:40,fmt:"long",levels:["C1"],desc:"Документальный нарратив на турецком, лидер чарта Apple Türkiye, насыщенная лексика."},
+  rabarba:{name:"Mesut Süre ile Rabarba",host:"Karnaval",img:null,apple:"https://podcasts.apple.com/tr/podcast/mesut-s%C3%BCre-ile-rabarba/id1215226167",dur:50,fmt:"long",levels:["C1"],desc:"Длинные интервью с гостями, быстрая живая речь и юмор, серьёзный вызов на слух."},
+  denizgoktas:{name:"Deniz Göktaş'a Ayıracak Vaktim Yok",host:"Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/deniz-g%C3%B6kta%C5%9F'a-ay%C4%B1racak-vaktim-yok/id1509957917",dur:38,fmt:"medium",levels:["C1"],desc:"Разговорное шоу с гостями, современный сленг и юмор носителей."},
+  haddiniasan:{name:"Haddini Aşan Yaşam Rehberi",host:"Serdar Kuzuloğlu, Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/haddini-a%C5%9Fan-ya%C5%9Fam-rehberi/id1732994227",dur:59,fmt:"long",levels:["C1"],desc:"Беседы о технологиях, обществе и будущем с экспертами, продвинутая и терминологичная лексика."},
+  kendineiyi:{name:"Kendine İyi Davran",host:"Beyhan Budak",img:null,apple:"https://podcasts.apple.com/tr/podcast/kendine-i%CC%87yi-davran/id1214693100",dur:12,fmt:"short",levels:["B1","B2","C1"],desc:"Психолог о самооценке и границах: короткие выпуски, спокойный монолог с очень чёткой дикцией."},
+  konusulacak:{name:"Konuşulacak Çok Şey Var!",host:"Zeynep Hantik, Podcast BPT",img:null,apple:"https://podcasts.apple.com/tr/podcast/konu%C5%9Fulacak-%C3%A7ok-%C5%9Fey-var!/id1594387960",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Один из топовых образовательных подкастов Турции, размеренная подача и понятная структура выпусков."},
+  aklimda:{name:"Aklımda Kalanlar",host:"Aklımda Kalanlar",img:null,apple:"https://podcasts.apple.com/tr/podcast/akl%C4%B1mda-kalanlar/id1680144770",dur:25,fmt:"medium",levels:["B1","B2","C1"],desc:"Размышления и заметки на разные темы, неспешный темп речи, удобный для тренировки понимания."},
+  nasilolunur:{name:"Nasıl Olunur",host:"Storytel",img:null,apple:"https://podcasts.apple.com/tr/podcast/nas%C4%B1l-olunur/id1458003492",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Истории о том, как люди становятся теми, кем стали, профессиональная студийная подача."},
+  gunlugum:{name:"bunları sadece günlüğüm biliyordu",host:"Zeynep Hantik, Podcast BPT",img:null,apple:"https://podcasts.apple.com/tr/podcast/bunlar%C4%B1-sadece-g%C3%BCnl%C3%BC%C4%9F%C3%BCm-biliyordu/id1812612773",dur:22,fmt:"medium",levels:["B1","B2","C1"],desc:"Личный дневниковый формат, тихая размеренная речь от первого лица."},
+  fularsiz:{name:"Fularsız Entellik",host:"Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/fulars%C4%B1z-entellik/id1471554610",dur:30,fmt:"medium",levels:["B2","C1"],desc:"Наука и культура понятным языком, качественная студийная запись и внятная артикуляция."},
+  yardimyataklik:{name:"Yardım ve Yataklık",host:"Yardım ve Yataklık",img:null,apple:"https://podcasts.apple.com/tr/podcast/yard%C4%B1m-ve-yatakl%C4%B1k/id1877888665",dur:35,fmt:"medium",levels:["B2","C1"],desc:"Разборы криминальных историй в документальном ключе, чёткая нарративная речь."},
+  derinden:{name:"Derinden Sesler",host:"Derinden Sesler",img:null,apple:"https://podcasts.apple.com/tr/podcast/derinden-sesler/id1817214142",dur:28,fmt:"medium",levels:["B1","B2","C1"],desc:"Новый нарративный подкаст о жизненных поворотах, поставленная дикторская подача."},
+  bumuyani:{name:"Bu Mu Yani?",host:"Bubble Works Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/bu-mu-yani%3F/id1474085607",dur:35,fmt:"medium",levels:["C1"],desc:"Разговоры о психологии повседневности, живая беседа двух ведущих в естественном темпе."},
+  varyete:{name:"Varyete",host:"Varyete",img:null,apple:"https://podcasts.apple.com/tr/podcast/varyete/id1584852905",dur:29,fmt:"medium",levels:["C1"],desc:"Комедийный разговорный подкаст, юмор, перебивки и очень быстрая речь носителей."},
+  birazkonusabilir:{name:"Biraz Konuşabilir miyiz?",host:"İlker Gümüşoluk, Kemal Ayça",img:null,apple:"https://podcasts.apple.com/tr/podcast/biraz-konu%C5%9Fabilir-miyiz%3F/id1532718489",dur:29,fmt:"medium",levels:["C1"],desc:"Свободная беседа двух комиков, разговорные обороты и шутки, сложные для неносителя."},
+  burdaolan:{name:"Burda Olan Burda Kalır",host:"Zafer Algöz, Can Yılmaz",img:null,apple:"https://podcasts.apple.com/tr/podcast/burda-olan-burda-kal%C4%B1r/id1493643223",dur:40,fmt:"long",levels:["C1"],desc:"Известные актёры в свободном разговоре, много сленга и культурных отсылок."},
+  otarzmi:{name:"O Tarz Mı?",host:"otarzmi",img:null,apple:"https://podcasts.apple.com/tr/podcast/o-tarz-m%C4%B1%3F/id1332079636",dur:35,fmt:"medium",levels:["C1"],desc:"Долгоживущий разговорный подкаст о поп-культуре, быстрая неподготовленная речь."},
+  kurcala:{name:"Kurcala Podcast Yaptı",host:"Nevzat Can Ünsal, Kaan Biber",img:null,apple:"https://podcasts.apple.com/tr/podcast/kurcala-podcast-yapt%C4%B1/id1648576493",dur:21,fmt:"medium",levels:["C1"],desc:"Разбор любопытных фактов в разговорном формате, короче большинства ток-подкастов."}
+};
+
+const LEVELS = {
+  A1:{sub:"Первые слова",title:"Начальный · Başlangıç",desc:"Бытовые фразы, простая лексика по темам, медленная речь и короткие выпуски."},
+  A2:{sub:"Простые фразы",title:"Элементарный · Temel",desc:"Более длинные диалоги, начальная грамматика в естественном темпе речи."},
+  B1:{sub:"Понимаю разговор",title:"Пороговый · Orta",desc:"Подкасты полностью на турецком для среднего уровня, истории и разговорные темы."},
+  B2:{sub:"Смотрю без пауз",title:"Продвинутый средний · Orta Üstü",desc:"Естественная разговорная речь без адаптации для учащихся, актуальные темы."},
+  C1:{sub:"Почти как носитель",title:"Профессиональный · İleri",desc:"Настоящие турецкие радиопередачи, журналистика, спорт, литература и длинные монологи."}
+};
+
+const FAQ = [
+  {q:"С какого уровня можно начинать слушать подкасты на турецком?",
+   a:"С A1. Есть подкасты, специально созданные для новичков: медленная речь, простые бытовые темы, перевод ключевых фраз."},
+  {q:"Слушать на обычной скорости или замедлять?",
+   a:"Начинайте на обычной скорости с подкастов уровня A1-A2, они и так записаны медленно и чётко. Замедление полезно только для подкастов уровня B2-C1, где темп естественный."},
+  {q:"Сколько слушать в день, чтобы был эффект?",
+   a:"15-20 минут сфокусированного прослушивания в день работают лучше одного долгого прослушивания раз в неделю. Один и тот же короткий выпуск можно переслушать два-три раза."},
+  {q:"Нужен ли транскрипт или скрипт выпуска?",
+   a:"Не обязательно, но полезен на уровнях A1-B1. Часть подкастов (например Turkish Coffee Podcast) публикует транскрипты и переводы на своём сайте."},
+  {q:"Apple Podcasts или Spotify, какую платформу выбрать?",
+   a:"Не имеет значения, у большинства подкастов в каталоге есть обе ссылки. Выбирайте ту платформу, которой уже пользуетесь."},
+  {q:"Как сообщить о неработающей ссылке?",
+   a:"Напишите об этом в школу Alterna любым удобным способом, мы проверим подкаст и уберём либо заменим ссылку в каталоге."}
+];
+
+let state = { view:"home", levels:new Set(), formats:new Set(), search:"", sort:"name-asc", group:"none", viewMode:"grid", moreOpen:false };
+
+const NAV = [
+  {id:"catalog", label:"Каталог"},
+  {id:"howto", label:"Как слушать"},
+  {id:"faq", label:"Вопросы"}
+];
+
+function podIds(){ return Object.keys(POD); }
+
+function setView(v){
+  state.view = v;
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  renderNav();
+  if(v==='catalog') renderCatalog();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderNav(){
+  document.getElementById('navLinks').innerHTML = NAV.map(n=>
+    `<button class="${state.view===n.id?'active':''}" onclick="setView('${n.id}')">${n.label}</button>`
+  ).join('');
+}
+
+function toggleLevel(l){
+  if(state.levels.has(l)) state.levels.delete(l); else state.levels.add(l);
+  renderCatalog();
+}
+function toggleFormat(f){
+  if(state.formats.has(f)) state.formats.delete(f); else state.formats.add(f);
+  renderCatalog();
+}
+function toggleMoreFilters(){
+  state.moreOpen = !state.moreOpen;
+  document.getElementById('moreFilters').classList.toggle('open', state.moreOpen);
+}
+function setSort(v){ state.sort=v; renderCatalog(); }
+function setGroup(v){ state.group=v; renderCatalog(); }
+function setViewMode(v){
+  state.viewMode = v;
+  document.getElementById('btnGrid').classList.toggle('active', v==='grid');
+  document.getElementById('btnList').classList.toggle('active', v==='list');
+  renderCatalog();
+}
+function resetFilters(){
+  state.levels = new Set();
+  state.formats = new Set();
+  state.search = "";
+  state.sort = "name-asc";
+  state.group = "none";
+  document.getElementById('searchInput').value = "";
+  document.getElementById('sortSelect').value = "name-asc";
+  document.getElementById('groupSelect').value = "none";
+  renderCatalog();
+}
+
+function allItems(){
+  const items = [];
+  podIds().forEach(id=>{
+    const p = POD[id];
+    p.levels.forEach(lvl=>{
+      items.push({id, level:lvl, ...p});
+    });
+  });
+  return items;
+}
+
+function sortItems(items){
+  const arr = items.slice();
+  if(state.sort==="name-asc") arr.sort((a,b)=>a.name.localeCompare(b.name,'ru'));
+  else if(state.sort==="name-desc") arr.sort((a,b)=>b.name.localeCompare(a.name,'ru'));
+  else if(state.sort==="dur-asc") arr.sort((a,b)=>a.dur-b.dur);
+  else if(state.sort==="dur-desc") arr.sort((a,b)=>b.dur-a.dur);
+  else if(state.sort==="format") arr.sort((a,b)=>(FMT_MIN[a.fmt]-FMT_MIN[b.fmt])||a.name.localeCompare(b.name,'ru'));
+  return arr;
+}
+
+const COVER_HUES = ["135deg,#ffb37a,#ff5a36","135deg,#ffe08a,#ffc93c","135deg,#7fd9c4,#1f6f5c","135deg,#a7c7ff,#5b5fc7","135deg,#ffb3c6,#e2567a","135deg,#c9b6ff,#7b5bd6","135deg,#9be7a8,#2f8f4e"];
+function hueFor(name){ let h=0; for(let i=0;i<name.length;i++) h+=name.charCodeAt(i)*(i+1); return COVER_HUES[h%COVER_HUES.length]; }
+function initialsOf(name){
+  const parts = name.replace(/[^\p{L}\p{N} ]/gu,' ').split(' ').filter(Boolean);
+  if(!parts.length) return "TR";
+  if(parts.length===1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0]+parts[1][0]).toUpperCase();
+}
+function coverInner(item){
+  const art = `<div class="cover-art" style="background:linear-gradient(${hueFor(item.name)})">
+    <span class="ca-initials">${initialsOf(item.name)}</span>
+    <span class="ca-name">${item.name}</span>
+    <span class="ca-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  </div>`;
+  if(item.img){
+    return art + `<img class="cover-photo" src="${item.img}" loading="lazy" alt="" onerror="this.remove()">`;
+  }
+  return art;
+}
+
+function cardHtml(item){
+  const links = `<div class="link-row">
+      <a href="${item.apple}" target="_blank" rel="noopener">Apple</a>
+      ${item.spotify?`<a href="${item.spotify}" target="_blank" rel="noopener">Spotify</a>`:''}
+    </div>`;
+  return `<div class="card">
+    <div class="cover">
+      ${coverInner(item)}
+      <div class="badge-row"><span class="b-lvl">${item.level}</span><span class="b-fmt fmt-${item.fmt}">${FMT[item.fmt]}</span></div>
+    </div>
+    <div class="card-body">
+      <h4>${item.name}</h4>
+      <div class="host">${item.host}</div>
+      <p>${item.desc}</p>
+      <div class="dur mono">${item.dur} мин</div>
+      ${links}
+    </div>
+  </div>`;
+}
+
+function rowHtml(item){
+  const links = `<div class="row-links">
+      <a href="${item.apple}" target="_blank" rel="noopener">Apple</a>
+      ${item.spotify?`<a href="${item.spotify}" target="_blank" rel="noopener">Spotify</a>`:''}
+    </div>`;
+  return `<div class="row-card">
+    <div class="cover">${coverInner(item)}</div>
+    <div class="row-info"><h4>${item.name}</h4><div class="host">${item.host}</div></div>
+    <div class="row-meta">
+      <span class="b-lvl" style="background:var(--bg);">${item.level}</span>
+      <span class="b-fmt fmt-${item.fmt}">${FMT[item.fmt]}</span>
+      <span class="mono" style="font-size:12px;color:var(--muted);">${item.dur} мин</span>
+    </div>
+    ${links}
+  </div>`;
+}
+
+function renderLevelPills(counts){
+  const el = document.getElementById('levelPills');
+  el.innerHTML = '<span class="lvl-label">Уровень</span>' + Object.keys(LEVELS).map(l=>
+    `<button class="lvl-pill ${state.levels.has(l)?'active':''}" onclick="toggleLevel('${l}')">${l} ${counts[l]||0}</button>`
+  ).join('');
+}
+function renderFormatFilters(counts){
+  document.getElementById('moreFilters').innerHTML = Object.keys(FMT).map(f=>
+    `<button class="f-chip ${state.formats.has(f)?'on':''}" onclick="toggleFormat('${f}')">${FMT[f]} ${counts[f]||0}</button>`
+  ).join('');
+}
+
+function renderCatalog(){
+  let items = allItems();
+  const levelCounts = {}; items.forEach(i=>{ levelCounts[i.level]=(levelCounts[i.level]||0)+1; });
+  const fmtCountsAll = {}; items.forEach(i=>{ fmtCountsAll[i.fmt]=(fmtCountsAll[i.fmt]||0)+1; });
+  renderLevelPills(levelCounts);
+  renderFormatFilters(fmtCountsAll);
+
+  const q = (state.search||'').trim().toLowerCase();
+  let filtered = items.filter(i=>{
+    if(state.levels.size>0 && !state.levels.has(i.level)) return false;
+    if(state.formats.size>0 && !state.formats.has(i.fmt)) return false;
+    if(q && !(i.name+' '+i.host+' '+i.desc).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  filtered = sortItems(filtered);
+  document.getElementById('foundNum').textContent = filtered.length;
+
+  const body = document.getElementById('catalogBody');
+  if(!filtered.length){
+    body.innerHTML = '<div class="empty">Ничего не найдено по этим фильтрам, попробуйте сбросить уровень или формат.</div>';
+    return;
+  }
+
+  const activeLevels = state.levels.size>0 ? Object.keys(LEVELS).filter(l=>state.levels.has(l)) : Object.keys(LEVELS);
+  let html = '';
+  activeLevels.forEach(lvl=>{
+    const levelItems = filtered.filter(i=>i.level===lvl);
+    if(!levelItems.length) return;
+    let inner;
+    if(state.group==="format"){
+      const groups = {};
+      levelItems.forEach(i=>{ (groups[i.fmt]=groups[i.fmt]||[]).push(i); });
+      inner = Object.keys(FMT).filter(f=>groups[f]&&groups[f].length).map(f=>`
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:8px;">${FMT[f]} <span class="mono">${groups[f].length}</span></div>
+          <div class="${state.viewMode==='grid'?'grid':'list'}">${groups[f].map(state.viewMode==='grid'?cardHtml:rowHtml).join('')}</div>
+        </div>`).join('');
+    } else {
+      inner = `<div class="${state.viewMode==='grid'?'grid':'list'}">${levelItems.map(state.viewMode==='grid'?cardHtml:rowHtml).join('')}</div>`;
+    }
+    html += `<div class="level-section">
+      <div class="level-head"><h3>Уровень ${lvl}</h3><hr><span class="level-count">${levelItems.length}</span></div>
+      ${inner}
+    </div>`;
+  });
+  body.innerHTML = html || '<div class="empty">Ничего не найдено по этим фильтрам, попробуйте сбросить уровень или формат.</div>';
+}
+
+function randomPodcast(){
+  const ids = podIds();
+  const id = ids[Math.floor(Math.random()*ids.length)];
+  window.open(POD[id].apple, "_blank");
+}
+
+function renderFaq(){
+  document.getElementById('faqList').innerHTML = FAQ.map((f,i)=>
+    `<div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFaq(${i})"><span>${f.q}</span><span class="plus">+</span></div>
+      <div class="faq-a">${f.a}</div>
+    </div>`
+  ).join('');
+}
+function toggleFaq(i){ document.getElementById('faq-'+i).classList.toggle('open'); }
+
+function renderMarquee(){
+  const words = ["JEDEN GÜN","DİNLE","ANLA","KONUŞ","TEKRARLA"];
+  const track = (words.concat(words)).map(w=>`<span>${w}</span>`).join('<span>·</span>');
+  document.getElementById('marqueeTrack').innerHTML = track;
+}
+
+function totalStats(){
+  const ids = podIds();
+  document.getElementById('statTotal').textContent = ids.length;
+  const durs = ids.map(id=>POD[id].dur);
+  document.getElementById('statRange').textContent = Math.min(...durs)+"-"+Math.max(...durs)+" мин";
+  const formats = new Set(ids.map(id=>POD[id].fmt));
+  document.getElementById('statFormats').textContent = formats.size;
+}
+
+document.getElementById('searchInput').addEventListener('input', e=>{
+  state.search = e.target.value;
+  renderCatalog();
+});
+
+renderNav();
+renderFaq();
+renderMarquee();
+totalStats();
+setView('home');
+
+/* ============================================================
+   Карта каталога — интерактивная визуализация
+   ============================================================ */
+const MP_COLOR = {bite:"#1f6f5c", short:"#ff5a36", medium:"#5b5fc7", long:"#2b2f3a"};
+const MP_MAX = 60;
+const MP_PAD = 22;
+const MP_TICKS = [5,15,30,45,60];
+let mpState = {formats:new Set(), time:60, sel:null};
+let mpResizeTimer = null;
+
+function mpX(dur, w){
+  const d = Math.max(0, Math.min(dur, MP_MAX));
+  return MP_PAD + (d/MP_MAX)*(w - MP_PAD*2);
+}
+
+function renderMpChips(){
+  const el = document.getElementById('mpChips');
+  if(!el) return;
+  el.innerHTML = '<span class="lvl-label">Формат</span>'
+    + `<button class="f-chip ${mpState.formats.size===0?'on':''}" onclick="mpAllFmt()">Все</button>`
+    + Object.keys(FMT).map(f=>`<button class="f-chip ${mpState.formats.has(f)?'on':''}" onclick="mpToggleFmt('${f}')">${FMT[f]}</button>`).join('');
+}
+function mpAllFmt(){ mpState.formats = new Set(); renderMpChips(); mpBuildDots(); }
+function mpToggleFmt(f){
+  if(mpState.formats.has(f)) mpState.formats.delete(f); else mpState.formats.add(f);
+  renderMpChips(); mpBuildDots();
+}
+
+function renderMap(){
+  const plot = document.getElementById('mpPlot');
+  if(!plot) return;
+  plot.innerHTML = Object.keys(LEVELS).map(l=>`
+    <div class="mp-lane">
+      <div class="mp-lane-label"><b>${l}</b><span>${LEVELS[l].sub}</span></div>
+      <div class="mp-track" data-lvl="${l}"></div>
+    </div>`).join('');
+  const ax = document.getElementById('mpAxis');
+  ax.innerHTML = MP_TICKS.map(m=>`<span data-m="${m}">${m===60?'60+ мин':m}</span>`).join('');
+  renderMpChips();
+  mpCloseDetail();
+  mpBuildDots();
+}
+
+function mpBuildDots(){
+  const items = allItems().filter(i=> mpState.formats.size===0 || mpState.formats.has(i.fmt));
+  const byLvl = {};
+  items.forEach(i=>{ (byLvl[i.level] = byLvl[i.level]||[]).push(i); });
+  Object.keys(byLvl).forEach(l=> byLvl[l].sort((a,b)=>a.dur-b.dur));
+
+  Object.keys(LEVELS).forEach(l=>{
+    const tr = document.querySelector('#mpPlot .mp-track[data-lvl="'+l+'"]');
+    if(!tr) return;
+    tr.innerHTML = '';
+    MP_TICKS.forEach(m=>{
+      const g = document.createElement('div');
+      g.className = 'mp-gl'; g.dataset.m = m;
+      tr.appendChild(g);
+    });
+    (byLvl[l]||[]).forEach(it=>{
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'mp-dot';
+      b.style.background = MP_COLOR[it.fmt];
+      b.dataset.id = it.id;
+      b.dataset.dur = it.dur;
+      b.setAttribute('aria-label', it.name + ', ' + it.dur + ' минут, уровень ' + l);
+      b.addEventListener('mouseenter', e=> mpTipShow(it, e.clientX, e.clientY));
+      b.addEventListener('mousemove', e=> mpTipMove(e.clientX, e.clientY));
+      b.addEventListener('mouseleave', mpTipHide);
+      b.addEventListener('focus', ()=>{
+        const r = b.getBoundingClientRect();
+        mpTipShow(it, r.left + r.width/2, r.bottom);
+      });
+      b.addEventListener('blur', mpTipHide);
+      b.addEventListener('click', ()=> mpSelect(it, b));
+      tr.appendChild(b);
+    });
+  });
+
+  mpLayout();
+  mpApplyTime();
+  const dots = Array.prototype.slice.call(document.querySelectorAll('#mpPlot .mp-dot'));
+  dots.forEach((d,i)=> setTimeout(()=> d.classList.add('in'), 40 + i*11));
+}
+
+function mpLayout(){
+  document.querySelectorAll('#mpPlot .mp-track').forEach(tr=>{
+    const w = tr.clientWidth;
+    if(!w) return;
+    tr.querySelectorAll('.mp-gl').forEach(g=>{ g.style.left = mpX(+g.dataset.m, w) + 'px'; });
+    const rows = [];
+    tr.querySelectorAll('.mp-dot').forEach(d=>{
+      const x = mpX(+d.dataset.dur, w);
+      let r = 0;
+      while(rows[r] !== undefined && Math.abs(rows[r]-x) < 27) r++;
+      rows[r] = x;
+      d.style.left = x + 'px';
+      d.style.top = (12 + r*30) + 'px';
+    });
+    tr.style.height = (26 + Math.max(rows.length,1)*30) + 'px';
+  });
+  const ax = document.getElementById('mpAxis');
+  if(ax && ax.clientWidth){
+    const w = ax.clientWidth;
+    Array.prototype.slice.call(ax.children).forEach(s=>{ s.style.left = mpX(+s.dataset.m, w) + 'px'; });
+  }
+}
+
+function mpApplyTime(){
+  const t = mpState.time;
+  const fit = new Set();
+  document.querySelectorAll('#mpPlot .mp-dot').forEach(d=>{
+    const ok = (+d.dataset.dur) <= t;
+    d.classList.toggle('mute', !ok);
+    if(ok) fit.add(d.dataset.id);
+  });
+  const el = document.getElementById('mpTimeFit');
+  if(el) el.textContent = fit.size;
+}
+function mpTime(v){
+  mpState.time = +v;
+  document.getElementById('mpTimeVal').textContent = v;
+  mpApplyTime();
+}
+
+function mpTipEl(){
+  let tip = document.getElementById('mpTip');
+  if(!tip){
+    tip = document.createElement('div');
+    tip.className = 'mp-tip'; tip.id = 'mpTip';
+    document.body.appendChild(tip);
+  }
+  return tip;
+}
+function mpTipShow(it, x, y){
+  const tip = mpTipEl();
+  tip.innerHTML = `<b>${it.name}</b><em>${it.host}</em><br>${it.dur} мин · ${FMT[it.fmt]} · ${it.levels.join(' ')}`;
+  tip.classList.add('on');
+  mpTipMove(x, y);
+}
+function mpTipMove(x, y){
+  const tip = mpTipEl();
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.max(10, Math.min(x + 14, window.innerWidth - w - 12)) + 'px';
+  tip.style.top = Math.max(10, Math.min(y + 16, window.innerHeight - h - 12)) + 'px';
+}
+function mpTipHide(){ const tip = document.getElementById('mpTip'); if(tip) tip.classList.remove('on'); }
+
+function mpSelect(it, el){
+  document.querySelectorAll('#mpPlot .mp-dot.sel').forEach(d=> d.classList.remove('sel'));
+  el.classList.add('sel');
+  const d = document.getElementById('mpDetail');
+  d.innerHTML = `
+    <div class="cover">${coverInner(it)}</div>
+    <div class="mp-d-body">
+      <h4>${it.name}</h4>
+      <div class="host">${it.host}</div>
+      <p>${it.desc}</p>
+      <div class="mp-d-meta">
+        ${it.levels.map(l=>`<span class="b-lvl" style="background:var(--bg);padding:5px 10px;border-radius:8px;">${l}</span>`).join('')}
+        <span class="b-fmt fmt-${it.fmt}" style="padding:5px 10px;border-radius:8px;">${FMT[it.fmt]}</span>
+        <span class="mono" style="font-size:12px;color:var(--muted);">${it.dur} мин в среднем</span>
+      </div>
+      <div class="link-row" style="max-width:340px;">
+        <a href="${it.apple}" target="_blank" rel="noopener">Apple Podcasts</a>
+        ${it.spotify?`<a href="${it.spotify}" target="_blank" rel="noopener">Spotify</a>`:''}
+      </div>
+    </div>
+    <button class="mp-d-close" onclick="mpCloseDetail()" aria-label="Закрыть карточку">✕</button>`;
+  d.classList.add('on');
+}
+function mpCloseDetail(){
+  const d = document.getElementById('mpDetail');
+  if(!d) return;
+  d.classList.remove('on');
+  d.innerHTML = '';
+  document.querySelectorAll('#mpPlot .mp-dot.sel').forEach(x=> x.classList.remove('sel'));
+}
+
+/* ============================================================
+   Всплывающая история проекта Alterna
+   ============================================================ */
+const ALT_CITIES = [
+  {t:0,    name:"Стамбул", lvl:"A1 · первые слова"},
+  {t:0.26, name:"Измир",   lvl:"A2 · быт и общение"},
+  {t:0.52, name:"Анталья", lvl:"B1 · свободный разговор"},
+  {t:0.76, name:"Анкара",  lvl:"B2 · учёба и работа"},
+  {t:1,    name:"Türkçe",  lvl:"C1 · как носитель"}
+];
+const ALT_DUR = [8000, 9500, 9000, 0];
+let altStep = 0, altTimer = null, altRaf = null, altAuto = true;
+
+function altReduced(){
+  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function altWrapWords(){
+  document.querySelectorAll('.alt-scene h3[data-words]').forEach(h=>{
+    if(h.dataset.wrapped) return;
+    const nodes = Array.prototype.slice.call(h.childNodes);
+    h.innerHTML = '';
+    let i = 0;
+    nodes.forEach(nd=>{
+      if(nd.nodeType === 3){
+        nd.textContent.split(/(\s+)/).forEach(tok=>{
+          if(!tok) return;
+          if(!tok.trim()){ h.appendChild(document.createTextNode(tok)); return; }
+          const s = document.createElement('span');
+          s.className = 'w'; s.textContent = tok;
+          s.style.animationDelay = (i*0.045) + 's'; i++;
+          h.appendChild(s);
+        });
+      } else {
+        const s = document.createElement('span');
+        s.className = 'w'; s.appendChild(nd);
+        s.style.animationDelay = (i*0.045) + 's'; i++;
+        h.appendChild(s);
+      }
+    });
+    h.dataset.wrapped = '1';
+  });
+}
+
+function altBuildPins(){
+  const path = document.getElementById('altPath');
+  const pins = document.getElementById('altPins');
+  if(!path || !pins || pins.dataset.built) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  const L = path.getTotalLength();
+  ALT_CITIES.forEach((c, idx)=>{
+    const pt = path.getPointAtLength(L * c.t);
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('data-t', c.t);
+    g.setAttribute('transform', 'translate(' + pt.x + ',' + pt.y + ')');
+    g.setAttribute('opacity', '0');
+
+    const halo = document.createElementNS(NS, 'circle');
+    halo.setAttribute('class','h'); halo.setAttribute('r','0');
+    halo.setAttribute('fill', idx===ALT_CITIES.length-1 ? 'rgba(255,201,60,.28)' : 'rgba(255,90,54,.16)');
+    const outer = document.createElementNS(NS, 'circle');
+    outer.setAttribute('class','o'); outer.setAttribute('r','0');
+    outer.setAttribute('fill', idx===ALT_CITIES.length-1 ? '#ffc93c' : '#16202a');
+    const inner = document.createElementNS(NS, 'circle');
+    inner.setAttribute('class','i'); inner.setAttribute('r','0');
+    inner.setAttribute('fill', idx===ALT_CITIES.length-1 ? '#16202a' : '#ffffff');
+
+    const above = pt.y > 120;
+    const lg = document.createElementNS(NS, 'g');
+    lg.setAttribute('class','lbl'); lg.setAttribute('opacity','0');
+    const t1 = document.createElementNS(NS, 'text');
+    t1.textContent = c.name;
+    t1.setAttribute('x','0'); t1.setAttribute('y', above ? '-26' : '32');
+    t1.setAttribute('text-anchor','middle');
+    t1.setAttribute('font-family','Sora, sans-serif');
+    t1.setAttribute('font-size','15'); t1.setAttribute('font-weight','800');
+    t1.setAttribute('fill','#16202a');
+    const t2 = document.createElementNS(NS, 'text');
+    t2.textContent = c.lvl;
+    t2.setAttribute('x','0'); t2.setAttribute('y', above ? '-44' : '49');
+    t2.setAttribute('text-anchor','middle');
+    t2.setAttribute('font-family','IBM Plex Mono, monospace');
+    t2.setAttribute('font-size','11'); t2.setAttribute('fill','#5f6b74');
+    lg.appendChild(t1); lg.appendChild(t2);
+
+    g.appendChild(halo); g.appendChild(outer); g.appendChild(inner); g.appendChild(lg);
+    pins.appendChild(g);
+  });
+  pins.dataset.built = '1';
+}
+
+function altEaseBack(p){
+  const c1 = 1.7, c3 = c1 + 1;
+  return 1 + c3*Math.pow(p-1,3) + c1*Math.pow(p-1,2);
+}
+
+function altRunRoute(){
+  const path = document.getElementById('altPath');
+  const plane = document.getElementById('altPlane');
+  const pins = document.getElementById('altPins');
+  if(!path || !pins) return;
+  altBuildPins();
+  const L = path.getTotalLength();
+  const groups = Array.prototype.slice.call(pins.querySelectorAll('g[data-t]'));
+  if(altRaf) cancelAnimationFrame(altRaf);
+
+  const reduced = altReduced();
+  const dur = reduced ? 1 : 3800;
+  const start = performance.now();
+  path.style.strokeDasharray = L;
+  path.style.strokeDashoffset = L;
+  plane.setAttribute('opacity', reduced ? '0' : '1');
+
+  function frame(now){
+    const p = Math.min(1, (now - start)/dur);
+    const e = 1 - Math.pow(1 - p, 3);
+    path.style.strokeDashoffset = L*(1-e);
+    const pt = path.getPointAtLength(L*e);
+    const pt2 = path.getPointAtLength(Math.min(L, L*e + 2));
+    const ang = Math.atan2(pt2.y-pt.y, pt2.x-pt.x)*180/Math.PI;
+    plane.setAttribute('transform', 'translate(' + pt.x + ',' + pt.y + ') rotate(' + ang + ')');
+    groups.forEach(g=>{
+      const ft = parseFloat(g.getAttribute('data-t'));
+      const lp = Math.max(0, Math.min(1, (e - ft)/0.09));
+      const s = lp === 0 ? 0 : altEaseBack(lp);
+      g.setAttribute('opacity', lp > 0 ? '1' : '0');
+      g.querySelector('circle.h').setAttribute('r', (19*s).toFixed(2));
+      g.querySelector('circle.o').setAttribute('r', (10*s).toFixed(2));
+      g.querySelector('circle.i').setAttribute('r', (3.8*s).toFixed(2));
+      g.querySelector('g.lbl').setAttribute('opacity', lp.toFixed(2));
+    });
+    if(p < 1){ altRaf = requestAnimationFrame(frame); return; }
+    groups.forEach(g=>{
+      g.setAttribute('opacity','1');
+      g.querySelector('circle.h').setAttribute('r','19');
+      g.querySelector('circle.o').setAttribute('r','10');
+      g.querySelector('circle.i').setAttribute('r','3.8');
+      g.querySelector('g.lbl').setAttribute('opacity','1');
+    });
+    plane.setAttribute('opacity','0');
+  }
+  altRaf = requestAnimationFrame(frame);
+}
+
+function renderAltDots(){
+  const el = document.getElementById('altDots');
+  el.innerHTML = ALT_DUR.map((_,i)=>
+    `<button class="${i===altStep?'on':''}" onclick="altGo(${i},true)" aria-label="Шаг ${i+1}"></button>`
+  ).join('');
+}
+
+function altGo(n, manual){
+  if(manual) altAuto = false;
+  n = Math.max(0, Math.min(ALT_DUR.length-1, n));
+  altStep = n;
+  document.querySelectorAll('.alt-scene').forEach(s=> s.classList.toggle('on', +s.dataset.sc === n));
+  renderAltDots();
+  document.getElementById('altPrev').disabled = (n === 0);
+  document.getElementById('altNext').textContent = (n === ALT_DUR.length-1) ? 'Смотреть каталог' : 'Дальше';
+  document.getElementById('altStage').scrollTop = 0;
+
+  const bar = document.getElementById('altBar');
+  clearTimeout(altTimer);
+  bar.style.transition = 'none';
+  bar.style.width = altAuto ? '0%' : (((n+1)/ALT_DUR.length)*100) + '%';
+  if(altAuto && ALT_DUR[n] > 0 && !altReduced()){
+    requestAnimationFrame(()=>{
+      bar.style.transition = 'width ' + ALT_DUR[n] + 'ms linear';
+      bar.style.width = '100%';
+    });
+    altTimer = setTimeout(()=> altGo(n+1), ALT_DUR[n]);
+  } else if(altAuto){
+    requestAnimationFrame(()=>{
+      bar.style.transition = 'width .4s ease';
+      bar.style.width = (((n+1)/ALT_DUR.length)*100) + '%';
+    });
+  }
+  if(n === 1) setTimeout(altRunRoute, 140);
+}
+
+function altNextClick(){
+  if(altStep === ALT_DUR.length-1){ closeAlterna(); setView('catalog'); }
+  else altGo(altStep+1, true);
+}
+
+function openAlterna(step){
+  const m = document.getElementById('altModal');
+  m.classList.add('open');
+  m.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+  altAuto = true;
+  altGo(step || 0);
+  try{ localStorage.setItem('alterna_intro_v1','1'); }catch(e){}
+}
+function closeAlterna(){
+  const m = document.getElementById('altModal');
+  if(!m.classList.contains('open')) return;
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+  clearTimeout(altTimer);
+  if(altRaf) cancelAnimationFrame(altRaf);
+  try{ localStorage.setItem('alterna_intro_v1','1'); }catch(e){}
+}
+
+/* ============================================================
+   Инициализация новых блоков
+   ============================================================ */
+const baseSetView = setView;
+setView = function(v){
+  baseSetView(v);
+  if(v === 'map') renderMap();
+  else mpTipHide();
+};
+
+NAV.splice(1, 0, {id:"map", label:"Карта"});
+renderNav();
+renderMpChips();
+altWrapWords();
+document.getElementById('mpTimeAll').textContent = podIds().length;
+document.getElementById('altCount').textContent = podIds().length;
+
+window.addEventListener('resize', ()=>{
+  clearTimeout(mpResizeTimer);
+  mpResizeTimer = setTimeout(()=>{ if(state.view === 'map') mpLayout(); }, 160);
+});
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape') closeAlterna();
+  if(document.getElementById('altModal').classList.contains('open')){
+    if(e.key === 'ArrowRight') altGo(altStep+1, true);
+    if(e.key === 'ArrowLeft') altGo(altStep-1, true);
+  }
+});
+
+let altSeen = false;
+try{ altSeen = !!localStorage.getItem('alterna_intro_v1'); }catch(e){ altSeen = false; }
+if(!altSeen) setTimeout(()=> openAlterna(0), 1200);
+</script>
+</body>
+</html>
