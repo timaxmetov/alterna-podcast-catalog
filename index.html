@@ -375,6 +375,52 @@
   .mp-detail .cover .ca-initials{width:46px;height:46px;border-radius:14px;font-size:19px;}
   .mp-lane-label{position:sticky;left:0;background:#fff;z-index:6;padding-right:8px;}
   .mp-axis-pad{position:sticky;left:0;background:#fff;z-index:6;}
+
+  /* ============ мои подкасты ============ */
+  .fav-btn{position:absolute;right:9px;bottom:9px;z-index:5;width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+    background:rgba(255,255,255,.92);color:var(--muted);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 12px rgba(22,32,42,.18);transition:transform .18s cubic-bezier(.2,1.4,.4,1),background .18s ease,color .18s ease;}
+  .fav-btn:hover{transform:scale(1.12);color:var(--coral);}
+  .fav-btn.on{background:var(--coral);color:#fff;}
+  .fav-btn.on:hover{color:#fff;}
+  .fav-btn svg{width:17px;height:17px;display:block;}
+  .fav-btn.pop{animation:favPop .42s cubic-bezier(.2,1.5,.4,1);}
+  @keyframes favPop{0%{transform:scale(1);}40%{transform:scale(1.32);}100%{transform:scale(1);}}
+  .fav-row{position:static;width:32px;height:32px;flex:none;background:var(--bg);box-shadow:none;border:1px solid var(--border);}
+  .fav-row.on{background:var(--coral);border-color:var(--coral);}
+
+  .my-head{display:grid;grid-template-columns:1.25fr .75fr;gap:26px;align-items:end;margin-bottom:22px;}
+  .my-head h2{font-size:28px;margin:0 0 8px;}
+  .my-head .lede{margin:0;}
+  .my-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center;}
+  .my-stats{margin-bottom:26px;}
+  .my-stats:empty{display:none;}
+  .my-stats .stat-card b{font-size:26px;}
+  .my-empty{background:#fff;border:1px dashed var(--border);border-radius:22px;padding:40px 30px;text-align:center;box-shadow:var(--shadow);}
+  .my-empty .em-mark{width:64px;height:64px;border-radius:20px;background:var(--bg);color:var(--coral);display:flex;
+    align-items:center;justify-content:center;margin:0 auto 16px;}
+  .my-empty h3{font-family:'Sora';font-size:19px;margin:0 0 8px;}
+  .my-empty p{color:var(--muted);font-size:13.5px;line-height:1.65;margin:0 auto 18px;max-width:430px;}
+  .my-empty .hero-cta{justify-content:center;}
+  .my-sec-title{display:flex;align-items:center;gap:12px;margin:0 0 16px;}
+  .my-sec-title h3{font-size:19px;margin:0;white-space:nowrap;}
+  .my-sec-title hr{flex:1;border:none;border-top:2px solid var(--border);}
+
+  .mp-dot.fav{box-shadow:0 0 0 2.5px var(--gold),0 4px 10px rgba(22,32,42,.2);}
+  .mp-dot.in.fav:hover,.mp-dot.in.fav.sel{box-shadow:0 0 0 2.5px var(--gold),0 12px 20px rgba(22,32,42,.3);}
+
+  .toast{position:fixed;left:50%;bottom:26px;z-index:300;background:var(--ink);color:#fff;font-size:13px;font-weight:600;
+    padding:12px 20px;border-radius:999px;box-shadow:0 14px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;
+    transform:translateX(-50%) translateY(12px);transition:opacity .25s ease,transform .25s cubic-bezier(.2,1.1,.3,1);}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:920px){
+    .my-head{grid-template-columns:1fr;}
+    .my-actions{justify-content:flex-start;}
+  }
+  .navpill{gap:12px;}
+  .nav-links button{padding:9px 12px;}
+  .nav-extra .tg-btn{padding:10px 12px;}
 </style>
 </head>
 <body>
@@ -393,7 +439,7 @@
       </button>
       <a class="tg-btn" href="https://t.me/alterna_turkish" target="_blank" rel="noopener" title="Alterna в Telegram">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
-        <span class="lbl">Telegram</span>
+        
       </a>
     </div>
     <button class="random-pill" onclick="randomPodcast()">
@@ -526,6 +572,21 @@
     <div class="mp-detail" id="mpDetail"></div>
   </section>
 
+  <section class="view" id="view-my">
+    <div class="my-head">
+      <div>
+        <h2>Мои подкасты</h2>
+        <p class="lede">Ваш личный плейлист: нажимайте на сердечко у любого подкаста в каталоге или на карте, и он появится здесь. Список хранится прямо в вашем браузере — регистрация не нужна, никуда ничего не отправляется.</p>
+      </div>
+      <div class="my-actions">
+        <button class="btn btn-dark" onclick="randomFav()">Случайный из моих</button>
+        <button class="reset-btn" onclick="clearFavs()">Очистить список</button>
+      </div>
+    </div>
+    <div class="my-stats stat-grid" id="myStats"></div>
+    <div id="myBody"></div>
+  </section>
+
   <section class="view" id="view-howto">
     <h2 style="font-size:28px;margin-bottom:8px;">Как слушать, чтобы это сработало</h2>
     <p class="lede">Подкаст на фоне не учит языку. Работает другой цикл, четыре шага, примерно 15-20 минут в день.</p>
@@ -647,56 +708,54 @@ const FMT = {bite:"Совсем короткий",short:"Короткий",mediu
 const FMT_MIN = {bite:0,short:1,medium:2,long:3};
 
 const POD = {
-  tc101pod:{name:"TurkishClass101",host:"TurkishClass101.com",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/a8/4b/b8/a84bb81d-1fd2-2081-28dc-a37c39203f58/mza_2139251772575060203.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-turkishclass101-com/id535704693",spotify:"https://open.spotify.com/show/7a8JaYQDBhv6Lhpj6Z4h8O",dur:6,fmt:"bite",levels:["A1","A2","B1"],desc:"Ежедневные короткие аудиоуроки: лексика по темам, грамматика и культурные заметки для разных уровней."},
-  linguaboost:{name:"LinguaBoost Turkish",host:"LinguaBoost",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/ec/f9/16/ecf9161f-ed3b-b415-31a9-762b91e86eb2/mza_10452435451601766084.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-linguaboost/id1497588013",spotify:"https://open.spotify.com/show/44WyS6N8aSIDGG302LqyIf",dur:12,fmt:"short",levels:["A1","A2"],desc:"Бытовые фразы по темам с переводом и озвучкой носителей языка."},
-  letslearn:{name:"Let's Learn Turkish",host:"Мельтем",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/6d/6e/a9/6d6ea92f-f879-4c11-7caa-d03ddbcada95/mza_15517304711893973721.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/lets-learn-turkish/id1354476540",spotify:"https://open.spotify.com/show/0uV0CuvikoZhJU01Q4iaDg",dur:8,fmt:"bite",levels:["A1","A2"],desc:"Дружелюбные короткие выпуски для новичков от носительницы языка из Стамбула."},
-  turkishwithcanpod:{name:"Turkish with Can",host:"Istanbul with Can",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts114/v4/12/8f/63/128f63f6-40c6-f8fc-b941-985f313125d0/mza_8520524898946714396.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-with-can/id1526321836",spotify:"https://open.spotify.com/show/5Paw7FikmElvCMmLNqA4XU",dur:16,fmt:"short",levels:["A2","B1"],desc:"Разговорная практика: базовые глаголы, конструкции и лексика для уверенного старта."},
-  ngpod:{name:"Learn Turkish With NG",host:"Nandita",img:null,apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-ng/id1547116579",spotify:"https://open.spotify.com/show/2YcqPnVeFROkXXMw3xHopo",dur:6,fmt:"bite",levels:["A1","A2"],desc:"Короткие выпуски о турецком языке и культуре для только начинающих."},
-  turkishaholicpod:{name:"Learn Turkish with Turkishaholic",host:"Turkishaholic",img:null,apple:"https://podcasts.apple.com/na/podcast/learn-turkish-with-turkishaholic/id1598288493",dur:21,fmt:"medium",levels:["A2","B1"],desc:"Истории и диалоги для начинающих и среднего уровня с разбором грамматики после каждой."},
-  coffeepod:{name:"Turkish Coffee Podcast",host:"Learn Turkish with Turkish Coffee",img:null,apple:"https://podcasts.apple.com/us/podcast/learn-turkish-intermediate-turkish-coffee-podcast/id1465059752",spotify:"https://open.spotify.com/show/42oBt22l4yXvMOWxUBeV1k",dur:12,fmt:"short",levels:["B1","B2"],desc:"Полностью на турецком, для среднего уровня, медленная речь и бытовые темы с транскриптом на сайте."},
-  easypod:{name:"Easy Turkish Podcast",host:"Easy Languages",img:null,apple:"https://podcasts.apple.com/tr/podcast/easy-turkish-learn-turkish-with-everyday-conversations/id1633455697",spotify:"https://open.spotify.com/show/4hi5TQ2gXwetxWYv23WDyl",dur:19,fmt:"short",levels:["B1","B2"],desc:"Обсуждение тем, идиом и фильмов на турецком, для тех, кто уже понимает разговорную речь."},
-  newslab:{name:"NewsLabTurkey",host:"Öykü Güley",img:null,apple:"https://podcasts.apple.com/us/podcast/newslabturkey/id1497003788",spotify:"https://open.spotify.com/show/3RumoJoh5hdkndovsOwkIA",dur:15,fmt:"short",levels:["B2","C1"],desc:"Разговоры о журналистике и медиа в Турции, естественная разговорная речь."},
-  acikdergi:{name:"Açık Dergi",host:"Açık Radyo",img:null,apple:"https://podcasts.apple.com/tr/podcast/a%C3%A7%C4%B1k-dergi/id553475857",spotify:"https://open.spotify.com/show/5MUruDrlICYYDz0uvJsIr1",dur:29,fmt:"medium",levels:["B2","C1"],desc:"Настоящая турецкая радиопередача о культуре и жизни Стамбула, без адаптации для учащихся."},
-  bilgisel:{name:"Bilgisel",host:"Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/bilgisel/id1629397256",spotify:"https://open.spotify.com/show/21Av2HeI7KVLKH1UZZwHub",dur:23,fmt:"medium",levels:["C1"],desc:"Исторические и культурные события Турции, документальный стиль повествования."},
-  edebiyat:{name:"Modern Türk Edebiyatı Okumaları",host:"Selçuk Atay",img:null,apple:"https://podcasts.apple.com/tr/podcast/modern-t%C3%BCrk-edebiyat%C4%B1-okumalar%C4%B1/id1615230515",spotify:"https://open.spotify.com/show/5pYLkE42pYpEpz1qI5TwLn",dur:19,fmt:"short",levels:["C1"],desc:"Чтение произведений современной турецкой литературы вслух, литературный язык."},
-  oksijen:{name:"Oksijen Podcast",host:"Oksijen",img:null,apple:"https://podcasts.apple.com/tr/podcast/oksijen-podcast/id1757226151",spotify:"https://open.spotify.com/show/0M0TFoMBxDJXeOwIrlYT9T",dur:39,fmt:"medium",levels:["C1"],desc:"Турецкая журналистика и аналитика на актуальные темы, естественный темп речи."},
-  cevheri:{name:"Cevheri Güven",host:"Cevheri Güven",img:null,apple:"https://podcasts.apple.com/tr/podcast/cevheri-g%C3%BCven/id1597869830",dur:47,fmt:"long",levels:["C1"],desc:"Длинные монологи и комментарии на турецком, хороший вызов для продвинутого уровня."},
-  turkishconv:{name:"Turkish Conversation",host:"Turkish Conversation",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts124/v4/a8/58/d5/a858d5d8-9def-53a8-48b7-f1da50e7c68e/mza_10638510014979878137.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-conversation/id1561753498",dur:14,fmt:"short",levels:["A1","A2","B1"],desc:"Бесплатный курс через диалоги: короткие уроки уровня A1 с повтором фраз за диктором."},
-  stories:{name:"Learn Turkish With Stories",host:"Emre Höçük",img:null,apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-stories/id1681456347",dur:13,fmt:"short",levels:["A2","B1"],desc:"Обучение через короткие истории на турецком с разбором лексики и грамматики."},
-  accelerator:{name:"Turkish Learning Accelerator",host:"Turkish Learning Accelerator",img:null,apple:"https://podcasts.apple.com/us/podcast/turkish-learning-accelerator/id1702419715",dur:10,fmt:"bite",levels:["A1","A2"],desc:"Регулярные короткие уроки для быстрого набора базового словарного запаса."},
-  beyoglu:{name:"Beyoğlu Beyoğlu",host:"Sportspub",img:null,apple:"https://podcasts.apple.com/us/podcast/beyo%C4%9Flu-beyo%C4%9Flu/id1683126646",dur:56,fmt:"long",levels:["C1"],desc:"Еженедельные разговоры о футболе и Галатасарае на естественном турецком."},
-  ikilioyun:{name:"İkili Oyun",host:"Medyascope Spor",img:null,apple:"https://podcasts.apple.com/us/podcast/i-kili-oyun/id1659008297",dur:46,fmt:"long",levels:["C1"],desc:"Разговоры о баскетболе, Евролиге и NBA на турецком языке носителей."},
-  viveka:{name:"Viveka Podcast",host:"Viveka",img:null,apple:"https://podcasts.apple.com/us/podcast/viveka-podcast/id1513434172",dur:11,fmt:"short",levels:["B2","C1"],desc:"Разговоры о турецких стартапах и предпринимательстве, более формальная лексика."},
-  bunlarkonu:{name:"Bunları Konuşalım Ya",host:"Bunları Konuşalım Ya",img:null,apple:"https://podcasts.apple.com/us/podcast/bunlar%C4%B1-konu%C5%9Fal%C4%B1m-ya/id1509986473",dur:35,fmt:"medium",levels:["C1"],desc:"Разговоры о спорте, культуре и обществе, естественная беглая речь."},
-  ussalsahbaz:{name:"Ussal Şahbaz ile Global İşler",host:"Wand Podcast Network",img:null,apple:"https://podcasts.apple.com/tr/podcast/ussal-%C5%9Fahbaz-ile-global-i-%C5%9Fler/id1672506404",dur:30,fmt:"medium",levels:["C1"],desc:"Технологии, общество и политика на турецком для продвинутого уровня понимания."},
-  ebru:{name:"Turkish Podcast with Ebru",host:"Ebru Sarıkaya",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/38/cc/f9/38ccf9eb-cfa0-6b33-92b6-18819df084d5/mza_6949256734955385624.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-podcast-with-ebru-intermediate-level-ebru-ile/id1766817732",dur:11,fmt:"short",levels:["A2","B1","B2"],desc:"Преподаватель Эбру рассказывает истории и темы на медленном, естественном турецком, с грамматическими вставками."},
-  theturkishpodcast:{name:"The Turkish Podcast",host:"The Turkish Podcast",img:null,apple:"https://podcasts.apple.com/tr/podcast/the-turkish-podcast/id1555712283",dur:15,fmt:"short",levels:["A2","B1","B2"],desc:"Понятный контент для учащихся всех уровней, на сайте авторов выложены транскрипты к выпускам."},
-  absbeginner:{name:"Learn Turkish, Absolute Beginner",host:"TurkishClass101.com",img:null,apple:"https://podcasts.apple.com/gb/podcast/learn-turkish-absolute-beginner/id1582672110",dur:12,fmt:"short",levels:["A1","A2"],desc:"Разбор реальных диалогов для самых начинающих: сначала диалог, затем медленный разбор каждого слова."},
-  turkcedunyasi:{name:"Türkçe Dünyası",host:"İbrahim Ercan",img:null,apple:"https://podcasts.apple.com/us/podcast/t%C3%BCrk%C3%A7e-d%C3%BCnyas%C4%B1-learn-turkish/id1063142617",dur:13,fmt:"short",levels:["A1","A2"],desc:"Аудио и видео подкасты для изучающих турецкий как иностранный, на открытых образовательных материалах."},
-  tli:{name:"Turkish Language Institute Podcast",host:"Turkish Language",img:null,apple:"https://podcasts.apple.com/us/podcast/turkish-language-institutes-podcast/id794146609",dur:10,fmt:"bite",levels:["A2","B1"],desc:"Аудиоприложение к учебнику Dilden Kalbe Türkçe, полностью на турецком, без английских вставок."},
-  ortamlarda:{name:"Ortamlarda Satılacak Bilgi",host:"Podcast BPT",img:null,apple:"https://podcasts.apple.com/tr/podcast/ortamlarda-sat%C4%B1lacak-bilgi/id1549686147",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Первый по популярности подкаст Турции: психология и саморазвитие, спокойный монолог с чёткой дикцией."},
-  yuzonbirhz:{name:"111 Hz",host:"Barış Özcan, Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/111-hz/id1574497387",dur:26,fmt:"medium",levels:["B2","C1"],desc:"Барыш Озджан о культуре, кино и идеях: очень чёткая речь, удобная для тренировки понимания."},
-  acaibgaraib:{name:"Tarihte Acaib ve Garaib",host:"Mustafa B. Bozkurt, Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/tarihte-acaib-ve-garaib/id1835433878",dur:25,fmt:"medium",levels:["B2","C1"],desc:"Странные и удивительные истории из прошлого, документальная подача с размеренным темпом речи."},
-  yoldayiz:{name:"Yoldayız, Geliyor musun?",host:"Ece Targıt",img:null,apple:"https://podcasts.apple.com/tr/podcast/yoldayiz-geliyor-musun/id1388986371",dur:14,fmt:"short",levels:["B1","B2","C1"],desc:"Спокойные размышления о психологии и жизни, короткие выпуски, размеренная речь."},
-  merdivenalti:{name:"Merdiven Altı Terapi",host:"Deniz Dülgeroğlu",img:null,apple:"https://podcasts.apple.com/tr/podcast/merdiven-alt%C4%B1-terapi/id1497612287",dur:35,fmt:"medium",levels:["B2","C1"],desc:"Один из самых слушаемых подкастов Турции о психологии и отношениях, живой разговорный язык."},
-  meksika:{name:"Meksika Açmazı",host:"Karnaval",img:null,apple:"https://podcasts.apple.com/tr/podcast/meksika-a%C3%A7maz%C4%B1/id1585156719",dur:40,fmt:"long",levels:["C1"],desc:"Документальный нарратив на турецком, лидер чарта Apple Türkiye, насыщенная лексика."},
-  rabarba:{name:"Mesut Süre ile Rabarba",host:"Karnaval",img:null,apple:"https://podcasts.apple.com/tr/podcast/mesut-s%C3%BCre-ile-rabarba/id1215226167",dur:50,fmt:"long",levels:["C1"],desc:"Длинные интервью с гостями, быстрая живая речь и юмор, серьёзный вызов на слух."},
-  denizgoktas:{name:"Deniz Göktaş'a Ayıracak Vaktim Yok",host:"Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/deniz-g%C3%B6kta%C5%9F'a-ay%C4%B1racak-vaktim-yok/id1509957917",dur:38,fmt:"medium",levels:["C1"],desc:"Разговорное шоу с гостями, современный сленг и юмор носителей."},
-  haddiniasan:{name:"Haddini Aşan Yaşam Rehberi",host:"Serdar Kuzuloğlu, Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/haddini-a%C5%9Fan-ya%C5%9Fam-rehberi/id1732994227",dur:59,fmt:"long",levels:["C1"],desc:"Беседы о технологиях, обществе и будущем с экспертами, продвинутая и терминологичная лексика."},
-  kendineiyi:{name:"Kendine İyi Davran",host:"Beyhan Budak",img:null,apple:"https://podcasts.apple.com/tr/podcast/kendine-i%CC%87yi-davran/id1214693100",dur:12,fmt:"short",levels:["B1","B2","C1"],desc:"Психолог о самооценке и границах: короткие выпуски, спокойный монолог с очень чёткой дикцией."},
-  konusulacak:{name:"Konuşulacak Çok Şey Var!",host:"Zeynep Hantik, Podcast BPT",img:null,apple:"https://podcasts.apple.com/tr/podcast/konu%C5%9Fulacak-%C3%A7ok-%C5%9Fey-var!/id1594387960",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Один из топовых образовательных подкастов Турции, размеренная подача и понятная структура выпусков."},
-  aklimda:{name:"Aklımda Kalanlar",host:"Aklımda Kalanlar",img:null,apple:"https://podcasts.apple.com/tr/podcast/akl%C4%B1mda-kalanlar/id1680144770",dur:25,fmt:"medium",levels:["B1","B2","C1"],desc:"Размышления и заметки на разные темы, неспешный темп речи, удобный для тренировки понимания."},
-  nasilolunur:{name:"Nasıl Olunur",host:"Storytel",img:null,apple:"https://podcasts.apple.com/tr/podcast/nas%C4%B1l-olunur/id1458003492",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Истории о том, как люди становятся теми, кем стали, профессиональная студийная подача."},
-  gunlugum:{name:"bunları sadece günlüğüm biliyordu",host:"Zeynep Hantik, Podcast BPT",img:null,apple:"https://podcasts.apple.com/tr/podcast/bunlar%C4%B1-sadece-g%C3%BCnl%C3%BC%C4%9F%C3%BCm-biliyordu/id1812612773",dur:22,fmt:"medium",levels:["B1","B2","C1"],desc:"Личный дневниковый формат, тихая размеренная речь от первого лица."},
-  fularsiz:{name:"Fularsız Entellik",host:"Podbee Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/fulars%C4%B1z-entellik/id1471554610",dur:30,fmt:"medium",levels:["B2","C1"],desc:"Наука и культура понятным языком, качественная студийная запись и внятная артикуляция."},
-  yardimyataklik:{name:"Yardım ve Yataklık",host:"Yardım ve Yataklık",img:null,apple:"https://podcasts.apple.com/tr/podcast/yard%C4%B1m-ve-yatakl%C4%B1k/id1877888665",dur:35,fmt:"medium",levels:["B2","C1"],desc:"Разборы криминальных историй в документальном ключе, чёткая нарративная речь."},
-  derinden:{name:"Derinden Sesler",host:"Derinden Sesler",img:null,apple:"https://podcasts.apple.com/tr/podcast/derinden-sesler/id1817214142",dur:28,fmt:"medium",levels:["B1","B2","C1"],desc:"Новый нарративный подкаст о жизненных поворотах, поставленная дикторская подача."},
-  bumuyani:{name:"Bu Mu Yani?",host:"Bubble Works Media",img:null,apple:"https://podcasts.apple.com/tr/podcast/bu-mu-yani%3F/id1474085607",dur:35,fmt:"medium",levels:["C1"],desc:"Разговоры о психологии повседневности, живая беседа двух ведущих в естественном темпе."},
-  varyete:{name:"Varyete",host:"Varyete",img:null,apple:"https://podcasts.apple.com/tr/podcast/varyete/id1584852905",dur:29,fmt:"medium",levels:["C1"],desc:"Комедийный разговорный подкаст, юмор, перебивки и очень быстрая речь носителей."},
-  birazkonusabilir:{name:"Biraz Konuşabilir miyiz?",host:"İlker Gümüşoluk, Kemal Ayça",img:null,apple:"https://podcasts.apple.com/tr/podcast/biraz-konu%C5%9Fabilir-miyiz%3F/id1532718489",dur:29,fmt:"medium",levels:["C1"],desc:"Свободная беседа двух комиков, разговорные обороты и шутки, сложные для неносителя."},
-  burdaolan:{name:"Burda Olan Burda Kalır",host:"Zafer Algöz, Can Yılmaz",img:null,apple:"https://podcasts.apple.com/tr/podcast/burda-olan-burda-kal%C4%B1r/id1493643223",dur:40,fmt:"long",levels:["C1"],desc:"Известные актёры в свободном разговоре, много сленга и культурных отсылок."},
-  otarzmi:{name:"O Tarz Mı?",host:"otarzmi",img:null,apple:"https://podcasts.apple.com/tr/podcast/o-tarz-m%C4%B1%3F/id1332079636",dur:35,fmt:"medium",levels:["C1"],desc:"Долгоживущий разговорный подкаст о поп-культуре, быстрая неподготовленная речь."},
-  kurcala:{name:"Kurcala Podcast Yaptı",host:"Nevzat Can Ünsal, Kaan Biber",img:null,apple:"https://podcasts.apple.com/tr/podcast/kurcala-podcast-yapt%C4%B1/id1648576493",dur:21,fmt:"medium",levels:["C1"],desc:"Разбор любопытных фактов в разговорном формате, короче большинства ток-подкастов."}
+  tc101pod:{name:"TurkishClass101",host:"TurkishClass101.com",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/a8/4b/b8/a84bb81d-1fd2-2081-28dc-a37c39203f58/mza_2139251772575060203.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-turkishclass101-com/id535704693",spotify:"https://open.spotify.com/show/7a8JaYQDBhv6Lhpj6Z4h8O",dur:6,fmt:"bite",levels:["A1","A2","B1"],desc:"Ежедневные короткие аудиоуроки: лексика по темам, грамматика и культурные заметки для разных уровней."},
+  linguaboost:{name:"LinguaBoost Turkish",host:"LinguaBoost",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/ec/f9/16/ecf9161f-ed3b-b415-31a9-762b91e86eb2/mza_10452435451601766084.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-linguaboost/id1497588013",spotify:"https://open.spotify.com/show/44WyS6N8aSIDGG302LqyIf",dur:12,fmt:"short",levels:["A1","A2"],desc:"Бытовые фразы по темам с переводом и озвучкой носителей языка."},
+  letslearn:{name:"Let's Learn Turkish",host:"Мельтем",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/6d/6e/a9/6d6ea92f-f879-4c11-7caa-d03ddbcada95/mza_15517304711893973721.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/lets-learn-turkish/id1354476540",spotify:"https://open.spotify.com/show/0uV0CuvikoZhJU01Q4iaDg",dur:8,fmt:"bite",levels:["A1","A2"],desc:"Дружелюбные короткие выпуски для новичков от носительницы языка из Стамбула."},
+  turkishwithcanpod:{name:"Turkish with Can",host:"Istanbul with Can",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts114/v4/12/8f/63/128f63f6-40c6-f8fc-b941-985f313125d0/mza_8520524898946714396.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-with-can/id1526321836",spotify:"https://open.spotify.com/show/5Paw7FikmElvCMmLNqA4XU",dur:16,fmt:"short",levels:["A2","B1"],desc:"Разговорная практика: базовые глаголы, конструкции и лексика для уверенного старта."},
+  ngpod:{name:"Learn Turkish With NG",host:"Nandita",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/ab/ae/18/abae18b9-0084-0759-a779-1743c851252c/mza_12881837025369812918.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-ng/id1547116579",spotify:"https://open.spotify.com/show/2YcqPnVeFROkXXMw3xHopo",dur:6,fmt:"bite",levels:["A1","A2"],desc:"Короткие выпуски о турецком языке и культуре для только начинающих."},
+  coffeepod:{name:"Turkish Coffee Podcast",host:"Learn Turkish with Turkish Coffee",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/8d/00/80/8d0080b0-267b-3076-1ae9-85735d851d77/mza_666665935776286572.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-intermediate-turkish-coffee-podcast/id1465059752",spotify:"https://open.spotify.com/show/42oBt22l4yXvMOWxUBeV1k",dur:12,fmt:"short",levels:["B1","B2"],desc:"Полностью на турецком, для среднего уровня, медленная речь и бытовые темы с транскриптом на сайте."},
+  easypod:{name:"Easy Turkish Podcast",host:"Easy Languages",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/5e/5e/75/5e5e7556-de9a-cae8-6f37-934ce1db666f/mza_4412081199756579376.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/easy-turkish-learn-turkish-with-everyday-conversations/id1633455697",spotify:"https://open.spotify.com/show/4hi5TQ2gXwetxWYv23WDyl",dur:19,fmt:"short",levels:["B1","B2"],desc:"Обсуждение тем, идиом и фильмов на турецком, для тех, кто уже понимает разговорную речь."},
+  newslab:{name:"NewsLabTurkey",host:"Öykü Güley",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/57/bc/95/57bc953f-d859-c3be-d0c2-55145fea085e/mza_2198836554780142586.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/newslabturkey/id1497003788",spotify:"https://open.spotify.com/show/3RumoJoh5hdkndovsOwkIA",dur:15,fmt:"short",levels:["B2","C1"],desc:"Разговоры о журналистике и медиа в Турции, естественная разговорная речь."},
+  acikdergi:{name:"Açık Dergi",host:"Açık Radyo",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/93/94/79/9394792f-1214-1e02-0ef3-222f91a04c0c/mza_18378734017367810060.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/a%C3%A7%C4%B1k-dergi/id553475857",spotify:"https://open.spotify.com/show/5MUruDrlICYYDz0uvJsIr1",dur:29,fmt:"medium",levels:["B2","C1"],desc:"Настоящая турецкая радиопередача о культуре и жизни Стамбула, без адаптации для учащихся."},
+  bilgisel:{name:"Bilgisel",host:"Podbee Media",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/a5/f4/7e/a5f47e9c-6568-4e89-2ed8-a8b71df3bcb4/mza_10777232787178343445.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/bilgisel/id1629397256",spotify:"https://open.spotify.com/show/21Av2HeI7KVLKH1UZZwHub",dur:23,fmt:"medium",levels:["C1"],desc:"Исторические и культурные события Турции, документальный стиль повествования."},
+  edebiyat:{name:"Modern Türk Edebiyatı Okumaları",host:"Selçuk Atay",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/cd/c3/6c/cdc36cbb-7734-dc89-891d-41aaaac39b22/mza_4533650775668066223.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/modern-t%C3%BCrk-edebiyat%C4%B1-okumalar%C4%B1/id1615230515",spotify:"https://open.spotify.com/show/5pYLkE42pYpEpz1qI5TwLn",dur:19,fmt:"short",levels:["C1"],desc:"Чтение произведений современной турецкой литературы вслух, литературный язык."},
+  oksijen:{name:"Oksijen Podcast",host:"Oksijen",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/c7/9c/89/c79c89d3-30fe-82cc-b55a-f0ea9ce07260/mza_2447921418003808309.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/oksijen-podcast/id1757226151",spotify:"https://open.spotify.com/show/0M0TFoMBxDJXeOwIrlYT9T",dur:39,fmt:"medium",levels:["C1"],desc:"Турецкая журналистика и аналитика на актуальные темы, естественный темп речи."},
+  cevheri:{name:"Cevheri Güven",host:"Cevheri Güven",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/4d/56/a9/4d56a9ba-6562-1428-6041-03c2c7e66fc4/mza_10806884544814683154.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/cevheri-g%C3%BCven/id1597869830",dur:47,fmt:"long",levels:["C1"],desc:"Длинные монологи и комментарии на турецком, хороший вызов для продвинутого уровня."},
+  turkishconv:{name:"Turkish Conversation",host:"Turkish Conversation",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts124/v4/a8/58/d5/a858d5d8-9def-53a8-48b7-f1da50e7c68e/mza_10638510014979878137.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-conversation/id1561753498",dur:14,fmt:"short",levels:["A1","A2","B1"],desc:"Бесплатный курс через диалоги: короткие уроки уровня A1 с повтором фраз за диктором."},
+  stories:{name:"Learn Turkish With Stories",host:"Emre Höçük",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/50/31/3a/50313a7e-4f7c-a891-0ddd-7d1b1a978e60/mza_15970978412678385523.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/learn-turkish-with-stories/id1681456347",dur:13,fmt:"short",levels:["A2","B1"],desc:"Обучение через короткие истории на турецком с разбором лексики и грамматики."},
+  accelerator:{name:"Turkish Learning Accelerator",host:"Turkish Learning Accelerator",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/be/ed/60/beed6027-4ce0-4512-31f3-6a9225d61a9a/mza_7525743512549407411.png/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-learning-accelerator/id1702419715",dur:10,fmt:"bite",levels:["A1","A2"],desc:"Регулярные короткие уроки для быстрого набора базового словарного запаса."},
+  beyoglu:{name:"Beyoğlu Beyoğlu",host:"Sportspub",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/96/21/2b/96212bfc-3e61-3494-931d-e4bbd1102b8f/mza_17598112856712798585.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/beyo%C4%9Flu-beyo%C4%9Flu/id1683126646",dur:56,fmt:"long",levels:["C1"],desc:"Еженедельные разговоры о футболе и Галатасарае на естественном турецком."},
+  ikilioyun:{name:"İkili Oyun",host:"Medyascope Spor",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/0e/be/89/0ebe89cc-cf0f-fca8-4c0c-a0154757b679/mza_3486014125560915467.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/i-kili-oyun/id1659008297",dur:46,fmt:"long",levels:["C1"],desc:"Разговоры о баскетболе, Евролиге и NBA на турецком языке носителей."},
+  viveka:{name:"Viveka Podcast",host:"Viveka",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/ad/72/60/ad72606e-b185-ce07-f829-69ffb82e12da/mza_9611816118438527376.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/viveka-podcast/id1513434172",dur:11,fmt:"short",levels:["B2","C1"],desc:"Разговоры о турецких стартапах и предпринимательстве, более формальная лексика."},
+  bunlarkonu:{name:"Bunları Konuşalım Ya",host:"Bunları Konuşalım Ya",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts114/v4/4e/c5/26/4ec526b0-32b4-ae13-f53c-a98022505f9b/mza_9822700285684448543.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/bunlar%C4%B1-konu%C5%9Fal%C4%B1m-ya/id1509986473",dur:35,fmt:"medium",levels:["C1"],desc:"Разговоры о спорте, культуре и обществе, естественная беглая речь."},
+  ussalsahbaz:{name:"Ussal Şahbaz ile Global İşler",host:"Wand Podcast Network",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/26/cc/83/26cc835a-0dd7-691d-95c3-9e5ecaf58d99/mza_8302559647996509508.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/ussal-%C5%9Fahbaz-ile-global-i-%C5%9Fler/id1672506404",dur:30,fmt:"medium",levels:["C1"],desc:"Технологии, общество и политика на турецком для продвинутого уровня понимания."},
+  ebru:{name:"Turkish Podcast with Ebru",host:"Ebru Sarıkaya",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/38/cc/f9/38ccf9eb-cfa0-6b33-92b6-18819df084d5/mza_6949256734955385624.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-podcast-with-ebru-intermediate-level-ebru-ile/id1766817732",dur:11,fmt:"short",levels:["A2","B1","B2"],desc:"Преподаватель Эбру рассказывает истории и темы на медленном, естественном турецком, с грамматическими вставками."},
+  theturkishpodcast:{name:"The Turkish Podcast",host:"The Turkish Podcast",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts114/v4/df/3e/11/df3e1169-9d09-8d41-9100-e563f61f1799/mza_18101693040112699123.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/the-turkish-podcast/id1555712283",dur:15,fmt:"short",levels:["A2","B1","B2"],desc:"Понятный контент для учащихся всех уровней, на сайте авторов выложены транскрипты к выпускам."},
+  absbeginner:{name:"Learn Turkish, Absolute Beginner",host:"TurkishClass101.com",img:"https://is1-ssl.mzstatic.com/image/thumb/PodcastSource125/v4/95/3b/84/953b8481-dc0e-4af2-b5fd-7fe8e8cc8a40/5657d40d-4779-4bf0-8867-4e1726881dba.jpg/600x600bf-60.jpg",apple:"https://podcasts.apple.com/gb/podcast/learn-turkish-absolute-beginner/id1582672110",dur:12,fmt:"short",levels:["A1","A2"],desc:"Разбор реальных диалогов для самых начинающих: сначала диалог, затем медленный разбор каждого слова."},
+  tli:{name:"Turkish Language Institute Podcast",host:"Turkish Language",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts6/v4/5a/a3/32/5aa3326e-8873-7976-a759-971596dd8058/mza_8134527137526780864.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/us/podcast/turkish-language-institutes-podcast/id794146609",dur:10,fmt:"bite",levels:["A2","B1"],desc:"Аудиоприложение к учебнику Dilden Kalbe Türkçe, полностью на турецком, без английских вставок."},
+  ortamlarda:{name:"Ortamlarda Satılacak Bilgi",host:"Podcast BPT",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/b6/c7/e5/b6c7e506-c754-5cb6-0536-2e2603718577/mza_17538872066657713367.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/ortamlarda-sat%C4%B1lacak-bilgi/id1549686147",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Первый по популярности подкаст Турции: психология и саморазвитие, спокойный монолог с чёткой дикцией."},
+  yuzonbirhz:{name:"111 Hz",host:"Barış Özcan, Podbee Media",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/62/ef/51/62ef51f2-ca8c-3827-7de5-827a2f9594a7/mza_16573495162645638877.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/111-hz/id1574497387",dur:26,fmt:"medium",levels:["B2","C1"],desc:"Барыш Озджан о культуре, кино и идеях: очень чёткая речь, удобная для тренировки понимания."},
+  acaibgaraib:{name:"Tarihte Acaib ve Garaib",host:"Mustafa B. Bozkurt, Podbee Media",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/f8/d3/8b/f8d38b15-a426-e01a-cb23-a85df0fc2a56/mza_854201018314669789.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/tarihte-acaib-ve-garaib/id1835433878",dur:25,fmt:"medium",levels:["B2","C1"],desc:"Странные и удивительные истории из прошлого, документальная подача с размеренным темпом речи."},
+  yoldayiz:{name:"Yoldayız, Geliyor musun?",host:"Ece Targıt",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/94/9d/de/949dde41-91c1-f5e1-7a82-c3726018bcbb/mza_16358756931033141558.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/yoldayiz-geliyor-musun/id1388986371",dur:14,fmt:"short",levels:["B1","B2","C1"],desc:"Спокойные размышления о психологии и жизни, короткие выпуски, размеренная речь."},
+  merdivenalti:{name:"Merdiven Altı Terapi",host:"Deniz Dülgeroğlu",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/24/23/a5/2423a53a-c196-d405-5ac8-9c32a6eb9d50/mza_4562229555133247098.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/merdiven-alt%C4%B1-terapi/id1497612287",dur:35,fmt:"medium",levels:["B2","C1"],desc:"Один из самых слушаемых подкастов Турции о психологии и отношениях, живой разговорный язык."},
+  meksika:{name:"Meksika Açmazı",host:"Karnaval",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/26/db/eb/26dbebf8-161a-9c9b-990c-5feca4ac1c83/mza_7022312819950547166.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/meksika-a%C3%A7maz%C4%B1/id1585156719",dur:40,fmt:"long",levels:["C1"],desc:"Документальный нарратив на турецком, лидер чарта Apple Türkiye, насыщенная лексика."},
+  rabarba:{name:"Mesut Süre ile Rabarba",host:"Karnaval",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts122/v4/17/dd/3d/17dd3dfa-aab2-cc45-7ad7-d3a315d219c9/mza_12947410223745197062.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/mesut-s%C3%BCre-ile-rabarba/id1215226167",dur:50,fmt:"long",levels:["C1"],desc:"Длинные интервью с гостями, быстрая живая речь и юмор, серьёзный вызов на слух."},
+  denizgoktas:{name:"Deniz Göktaş'a Ayıracak Vaktim Yok",host:"Podbee Media",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/1b/ea/1f/1bea1fa1-ac3a-b23a-73e8-75e8ac5962b9/mza_16886332660760795570.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/deniz-g%C3%B6kta%C5%9F'a-ay%C4%B1racak-vaktim-yok/id1509957917",dur:38,fmt:"medium",levels:["C1"],desc:"Разговорное шоу с гостями, современный сленг и юмор носителей."},
+  haddiniasan:{name:"Haddini Aşan Yaşam Rehberi",host:"Serdar Kuzuloğlu, Podbee Media",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/06/61/39/066139dc-9358-0910-e36a-fb04d045f62c/mza_6826227152594506190.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/haddini-a%C5%9Fan-ya%C5%9Fam-rehberi/id1732994227",dur:59,fmt:"long",levels:["C1"],desc:"Беседы о технологиях, обществе и будущем с экспертами, продвинутая и терминологичная лексика."},
+  kendineiyi:{name:"Kendine İyi Davran",host:"Beyhan Budak",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/53/bc/3d/53bc3df5-2474-f949-78f2-08488388b308/mza_576361186236885428.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/kendine-i%CC%87yi-davran/id1214693100",dur:12,fmt:"short",levels:["B1","B2","C1"],desc:"Психолог о самооценке и границах: короткие выпуски, спокойный монолог с очень чёткой дикцией."},
+  konusulacak:{name:"Konuşulacak Çok Şey Var!",host:"Zeynep Hantik, Podcast BPT",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/6a/20/1c/6a201c49-3b4a-448c-6e9c-8d4b084efeb5/mza_10521441112897120896.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/konu%C5%9Fulacak-%C3%A7ok-%C5%9Fey-var!/id1594387960",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Один из топовых образовательных подкастов Турции, размеренная подача и понятная структура выпусков."},
+  aklimda:{name:"Aklımda Kalanlar",host:"Aklımda Kalanlar",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/91/81/45/918145db-cca9-8ad7-cba7-99a8c3c58576/mza_5837942560682986384.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/akl%C4%B1mda-kalanlar/id1680144770",dur:25,fmt:"medium",levels:["B1","B2","C1"],desc:"Размышления и заметки на разные темы, неспешный темп речи, удобный для тренировки понимания."},
+  nasilolunur:{name:"Nasıl Olunur",host:"Storytel",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/a2/e7/65/a2e765f3-be0b-23d1-da29-c8aac957d9da/mza_3773305927165867661.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/nas%C4%B1l-olunur/id1458003492",dur:30,fmt:"medium",levels:["B1","B2","C1"],desc:"Истории о том, как люди становятся теми, кем стали, профессиональная студийная подача."},
+  gunlugum:{name:"bunları sadece günlüğüm biliyordu",host:"Zeynep Hantik, Podcast BPT",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/4b/4c/bb/4b4cbbea-ce49-edac-8b95-7712f554a6a3/mza_1768838362060788013.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/bunlar%C4%B1-sadece-g%C3%BCnl%C3%BC%C4%9F%C3%BCm-biliyordu/id1812612773",dur:22,fmt:"medium",levels:["B1","B2","C1"],desc:"Личный дневниковый формат, тихая размеренная речь от первого лица."},
+  fularsiz:{name:"Fularsız Entellik",host:"Podbee Media",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/ed/68/d4/ed68d45a-6034-3c82-e775-0dd4de7a00b1/mza_2823170540372441706.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/fulars%C4%B1z-entellik/id1471554610",dur:30,fmt:"medium",levels:["B2","C1"],desc:"Наука и культура понятным языком, качественная студийная запись и внятная артикуляция."},
+  yardimyataklik:{name:"Yardım ve Yataklık",host:"Yardım ve Yataklık",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/e3/07/c3/e307c33b-22eb-91f0-ce25-61d4fcac477e/mza_4760073035797850539.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/yard%C4%B1m-ve-yatakl%C4%B1k/id1877888665",dur:35,fmt:"medium",levels:["B2","C1"],desc:"Разборы криминальных историй в документальном ключе, чёткая нарративная речь."},
+  derinden:{name:"Derinden Sesler",host:"Derinden Sesler",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/d5/02/6c/d5026c2d-86c3-6a91-a000-d6b236c0fe1f/mza_3039772644770459071.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/derinden-sesler/id1817214142",dur:28,fmt:"medium",levels:["B1","B2","C1"],desc:"Новый нарративный подкаст о жизненных поворотах, поставленная дикторская подача."},
+  bumuyani:{name:"Bu Mu Yani?",host:"Bubble Works Media",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/d6/26/27/d62627c0-a8da-ba73-cf14-68cf1f9fe0ba/mza_6427317037834607208.jpeg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/bu-mu-yani%3F/id1474085607",dur:35,fmt:"medium",levels:["C1"],desc:"Разговоры о психологии повседневности, живая беседа двух ведущих в естественном темпе."},
+  varyete:{name:"Varyete",host:"Varyete",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/e5/89/f9/e589f97b-05ec-6b6d-d1ca-2ffb168e3108/mza_13618477735384192317.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/varyete/id1584852905",dur:29,fmt:"medium",levels:["C1"],desc:"Комедийный разговорный подкаст, юмор, перебивки и очень быстрая речь носителей."},
+  birazkonusabilir:{name:"Biraz Konuşabilir miyiz?",host:"İlker Gümüşoluk, Kemal Ayça",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/6f/91/db/6f91db7a-a634-d951-d82e-95f9dd8f8d86/mza_3541192994288793312.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/biraz-konu%C5%9Fabilir-miyiz%3F/id1532718489",dur:29,fmt:"medium",levels:["C1"],desc:"Свободная беседа двух комиков, разговорные обороты и шутки, сложные для неносителя."},
+  burdaolan:{name:"Burda Olan Burda Kalır",host:"Zafer Algöz, Can Yılmaz",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/ca/7b/35/ca7b3513-c91e-daee-7968-d0cec64ee1a0/mza_12271523296789465627.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/burda-olan-burda-kal%C4%B1r/id1493643223",dur:40,fmt:"long",levels:["C1"],desc:"Известные актёры в свободном разговоре, много сленга и культурных отсылок."},
+  otarzmi:{name:"O Tarz Mı?",host:"otarzmi",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/51/43/b0/5143b09a-62b0-aab4-3ceb-0ba47757f420/mza_13567104680000401331.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/o-tarz-m%C4%B1%3F/id1332079636",dur:35,fmt:"medium",levels:["C1"],desc:"Долгоживущий разговорный подкаст о поп-культуре, быстрая неподготовленная речь."},
+  kurcala:{name:"Kurcala Podcast Yaptı",host:"Nevzat Can Ünsal, Kaan Biber",img:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/98/bf/0a/98bf0af3-01ce-9ab7-e1ab-6ec079f44cca/mza_7428743232472900956.jpg/600x600bb.jpg",apple:"https://podcasts.apple.com/tr/podcast/kurcala-podcast-yapt%C4%B1/id1648576493",dur:21,fmt:"medium",levels:["C1"],desc:"Разбор любопытных фактов в разговорном формате, короче большинства ток-подкастов."}
 };
 
 const LEVELS = {
@@ -1374,6 +1433,162 @@ document.addEventListener('keydown', e=>{
 let altSeen = false;
 try{ altSeen = !!localStorage.getItem('alterna_intro_v1'); }catch(e){ altSeen = false; }
 if(!altSeen) setTimeout(()=> openAlterna(0), 1200);
+
+/* ============================================================
+   Мои подкасты — личный список в localStorage
+   ============================================================ */
+const FAV_KEY = 'alterna_my_pods_v1';
+const HEART_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.7l-1.4-1.3C5.5 14.9 2.5 12.2 2.5 8.8 2.5 6.1 4.6 4 7.3 4c1.6 0 3.1.7 4.7 2.5C13.6 4.7 15.1 4 16.7 4c2.7 0 4.8 2.1 4.8 4.8 0 3.4-3 6.1-8.1 10.6L12 20.7z"/></svg>';
+let favs = [];
+
+function loadFavs(){
+  try{
+    const v = JSON.parse(localStorage.getItem(FAV_KEY) || '[]');
+    return Array.isArray(v) ? v.filter(id=> POD[id]) : [];
+  }catch(e){ return []; }
+}
+function saveFavs(){ try{ localStorage.setItem(FAV_KEY, JSON.stringify(favs)); }catch(e){} }
+function isFav(id){ return favs.indexOf(id) !== -1; }
+
+function favBtnHtml(id, variant){
+  const on = isFav(id);
+  return '<button class="fav-btn' + (variant==='row'?' fav-row':'') + (on?' on':'') + '"'
+    + ' data-fav="' + id + '" aria-pressed="' + on + '"'
+    + ' aria-label="' + (on ? 'Убрать из моих подкастов' : 'Добавить в мои подкасты') + '"'
+    + ' title="' + (on ? 'Убрать из моих подкастов' : 'Добавить в мои подкасты') + '"'
+    + ' onclick="event.preventDefault();event.stopPropagation();toggleFav(\'' + id + '\')">' + HEART_SVG + '</button>';
+}
+
+function toggleFav(id){
+  if(!POD[id]) return;
+  const adding = !isFav(id);
+  favs = adding ? favs.concat([id]) : favs.filter(f=> f !== id);
+  saveFavs();
+  syncFavUI(id, adding);
+  updateNavCount();
+  if(state.view === 'my') renderMy();
+  toast(adding ? 'Добавлено в «Мои подкасты»' : 'Убрано из списка');
+}
+
+function syncFavUI(id, pop){
+  const on = isFav(id);
+  document.querySelectorAll('[data-fav="' + id + '"]').forEach(b=>{
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on);
+    const t = on ? 'Убрать из моих подкастов' : 'Добавить в мои подкасты';
+    b.setAttribute('title', t); b.setAttribute('aria-label', t);
+    if(pop){ b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
+  });
+  document.querySelectorAll('#mpPlot .mp-dot[data-id="' + id + '"]').forEach(d=> d.classList.toggle('fav', on));
+}
+
+let toastTimer = null;
+function toast(msg){
+  let el = document.getElementById('appToast');
+  if(!el){
+    el = document.createElement('div');
+    el.className = 'toast'; el.id = 'appToast';
+    el.setAttribute('role','status');
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('on'), 2200);
+}
+
+/* сердечко на карточках каталога и в списке */
+const baseCardHtml = cardHtml;
+cardHtml = function(item){
+  return baseCardHtml(item).replace('<div class="badge-row">', favBtnHtml(item.id) + '<div class="badge-row">');
+};
+const baseRowHtml = rowHtml;
+rowHtml = function(item){
+  return baseRowHtml(item).replace('<div class="row-links">', '<div class="row-links">' + favBtnHtml(item.id, 'row'));
+};
+
+function updateNavCount(){
+  const entry = NAV.filter(n=> n.id === 'my')[0];
+  if(entry) entry.label = favs.length ? 'Мои · ' + favs.length : 'Мои';
+  renderNav();
+}
+
+function renderMy(){
+  const body = document.getElementById('myBody');
+  const stats = document.getElementById('myStats');
+  const items = favs.map(id=> POD[id] ? Object.assign({id:id}, POD[id]) : null).filter(Boolean).reverse();
+
+  if(!items.length){
+    stats.innerHTML = '';
+    body.innerHTML = '<div class="my-empty">'
+      + '<div class="em-mark">' + HEART_SVG.replace('<svg','<svg width="30" height="30"') + '</div>'
+      + '<h3>Здесь пока пусто</h3>'
+      + '<p>Откройте каталог или карту и нажмите на сердечко у подкаста, который хотите слушать. Он появится в этом списке, и вы всегда найдёте его без поиска.</p>'
+      + '<div class="hero-cta">'
+      + '<button class="btn btn-dark" onclick="setView(\'catalog\')">Открыть каталог</button>'
+      + '<button class="btn btn-ghost" onclick="setView(\'map\')">Открыть карту</button>'
+      + '</div></div>';
+    return;
+  }
+
+  const total = items.reduce((s,p)=> s + p.dur, 0);
+  const lvls = Object.keys(LEVELS).filter(l=> items.some(p=> p.levels.indexOf(l) !== -1));
+  stats.innerHTML =
+      '<div class="stat-card sc1"><b>' + items.length + '</b><span>подкастов в вашем списке</span></div>'
+    + '<div class="stat-card sc2"><b>' + total + ' мин</b><span>если послушать по одному выпуску каждого</span></div>'
+    + '<div class="stat-card sc3"><b>' + (lvls.join(' ') || '-') + '</b><span>уровни в вашем списке</span></div>'
+    + '<div class="stat-card sc4"><b>' + Math.round(total/items.length) + ' мин</b><span>средняя длина выпуска</span></div>';
+
+  body.innerHTML = '<div class="my-sec-title"><h3>Сохранённые</h3><hr></div>'
+    + '<div class="grid">' + items.map(p=>{
+        const item = Object.assign({}, p, {level: p.levels[0] + (p.levels.length>1 ? '+' : '')});
+        return cardHtml(item);
+      }).join('') + '</div>';
+}
+
+function randomFav(){
+  if(!favs.length){ toast('Список пока пуст'); return; }
+  const id = favs[Math.floor(Math.random()*favs.length)];
+  window.open(POD[id].apple, '_blank', 'noopener');
+}
+function clearFavs(){
+  if(!favs.length){ toast('Список и так пуст'); return; }
+  if(!confirm('Очистить список «Мои подкасты»? Отменить это действие нельзя.')) return;
+  const ids = favs.slice();
+  favs = [];
+  saveFavs();
+  ids.forEach(id=> syncFavUI(id));
+  updateNavCount();
+  renderMy();
+  toast('Список очищен');
+}
+
+/* карта: подсветка сохранённых точек */
+const baseMpBuildDots = mpBuildDots;
+mpBuildDots = function(){
+  baseMpBuildDots();
+  document.querySelectorAll('#mpPlot .mp-dot').forEach(d=> d.classList.toggle('fav', isFav(d.dataset.id)));
+};
+
+/* карточка подкаста на карте: кнопка «в мои» */
+const baseMpSelect = mpSelect;
+mpSelect = function(it, el){
+  baseMpSelect(it, el);
+  const row = document.querySelector('#mpDetail .link-row');
+  if(row) row.insertAdjacentHTML('afterbegin', favBtnHtml(it.id, 'row'));
+};
+
+/* инициализация раздела */
+const baseSetViewFav = setView;
+setView = function(v){
+  baseSetViewFav(v);
+  if(v === 'my') renderMy();
+};
+
+favs = loadFavs();
+NAV.splice(2, 0, {id:"my", label:"Мои"});
+updateNavCount();
+renderMy();
 </script>
 </body>
 </html>
