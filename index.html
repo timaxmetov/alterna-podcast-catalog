@@ -506,6 +506,108 @@
     .brand-name{font-size:14.5px;}
     .logo-mark{width:32px;height:32px;}
   }
+
+  /* ============ заставка при открытии ============ */
+  body.splash-on{overflow:hidden;}
+  .splash{position:fixed;inset:0;z-index:400;background:var(--ink);display:flex;align-items:center;justify-content:center;
+    transition:opacity .55s ease,visibility .55s ease;}
+  .splash.gone{opacity:0;visibility:hidden;}
+  .sp-inner{text-align:center;padding:24px;}
+  .sp-mark{width:92px;height:92px;border-radius:28px;background:rgba(255,255,255,.06);margin:0 auto 22px;
+    display:flex;align-items:center;justify-content:center;
+    animation:spMark .8s cubic-bezier(.2,1.2,.3,1) both;}
+  @keyframes spMark{from{opacity:0;transform:scale(.75) translateY(10px);}to{opacity:1;transform:none;}}
+  .sp-wave{display:flex;align-items:flex-end;gap:5px;height:42px;}
+  .sp-wave i{display:block;width:6px;border-radius:3px;background:var(--gold);height:100%;transform-origin:bottom;
+    animation:spBar 1.05s ease-in-out infinite;}
+  .sp-wave i:nth-child(1){animation-delay:0s;}
+  .sp-wave i:nth-child(2){animation-delay:.09s;}
+  .sp-wave i:nth-child(3){animation-delay:.18s;}
+  .sp-wave i:nth-child(4){animation-delay:.27s;}
+  .sp-wave i:nth-child(5){animation-delay:.36s;}
+  .sp-wave i:nth-child(6){animation-delay:.45s;}
+  .sp-wave i:nth-child(7){animation-delay:.54s;}
+  @keyframes spBar{0%,100%{transform:scaleY(.22);}50%{transform:scaleY(1);}}
+  .sp-name{font-family:'Sora',sans-serif;font-weight:800;font-size:26px;color:#fff;letter-spacing:-.01em;
+    animation:spUp .7s .18s cubic-bezier(.2,.9,.3,1) both;}
+  .sp-sub{font-size:12px;color:#8d99a3;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-top:8px;
+    animation:spUp .7s .3s cubic-bezier(.2,.9,.3,1) both;}
+  @keyframes spUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .sp-bar{width:190px;height:3px;border-radius:3px;background:rgba(255,255,255,.12);margin:26px auto 0;overflow:hidden;
+    animation:spUp .6s .4s ease both;}
+  .sp-bar i{display:block;height:100%;width:0;background:var(--coral);border-radius:3px;
+    animation:spFill 1.5s .25s cubic-bezier(.4,.05,.25,1) forwards;}
+  @keyframes spFill{to{width:100%;}}
+
+  /* появление первого экрана после заставки */
+  #view-home.hero-in .eyebrow-row,
+  #view-home.hero-in .headline,
+  #view-home.hero-in .lede,
+  #view-home.hero-in .hero-cta,
+  #view-home.hero-in .collage{animation:heroUp .75s cubic-bezier(.2,.9,.3,1) both;}
+  #view-home.hero-in .eyebrow-row{animation-delay:.02s;}
+  #view-home.hero-in .headline{animation-delay:.1s;}
+  #view-home.hero-in .lede{animation-delay:.2s;}
+  #view-home.hero-in .hero-cta{animation-delay:.3s;}
+  #view-home.hero-in .collage{animation-delay:.16s;}
+  @keyframes heroUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+  #view-home.hero-in .hero-tile{animation:tileIn .7s cubic-bezier(.2,1.15,.3,1) both;}
+  #view-home.hero-in .c1{animation-delay:.28s;} #view-home.hero-in .c2{animation-delay:.38s;}
+  #view-home.hero-in .c3{animation-delay:.48s;} #view-home.hero-in .c4{animation-delay:.58s;}
+  @keyframes tileIn{from{opacity:0;transform:scale(.82) rotate(0deg);}}
+
+  /* ============ карточка случайного подкаста ============ */
+  .pod-modal{position:fixed;inset:0;z-index:220;display:none;align-items:center;justify-content:center;padding:20px;}
+  .pod-modal.open{display:flex;}
+  .pm-backdrop{position:absolute;inset:0;background:rgba(16,24,32,.6);backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);animation:altFade .3s ease;}
+  .pm-card{position:relative;width:min(760px,100%);max-height:88vh;overflow-y:auto;background:var(--bg);border-radius:26px;
+    box-shadow:0 36px 80px rgba(0,0,0,.4);padding:26px;animation:pmIn .5s cubic-bezier(.2,.95,.3,1);}
+  @keyframes pmIn{from{opacity:0;transform:translateY(24px) scale(.94);}to{opacity:1;transform:none;}}
+  .pm-close{position:absolute;top:16px;right:16px;z-index:4;}
+  .pm-grid{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start;}
+  .pm-cover{width:200px;height:200px;border-radius:22px;overflow:hidden;position:relative;background:#e2e6de;
+    box-shadow:0 18px 36px rgba(22,32,42,.22);animation:pmCover .65s cubic-bezier(.2,1.1,.3,1) both;}
+  @keyframes pmCover{from{opacity:0;transform:scale(.86) rotate(-3deg);}to{opacity:1;transform:none;}}
+  .pm-cover img{width:100%;height:100%;object-fit:cover;}
+  .pm-cover .ca-initials{width:74px;height:74px;font-size:32px;}
+  .pm-info>*{animation:heroUp .55s cubic-bezier(.2,.9,.3,1) both;}
+  .pm-info>*:nth-child(1){animation-delay:.06s;} .pm-info>*:nth-child(2){animation-delay:.12s;}
+  .pm-info>*:nth-child(3){animation-delay:.18s;} .pm-info>*:nth-child(4){animation-delay:.24s;}
+  .pm-info>*:nth-child(5){animation-delay:.3s;} .pm-info>*:nth-child(6){animation-delay:.36s;}
+  .pm-kicker{font-family:'IBM Plex Mono';font-size:11.5px;font-weight:600;color:var(--coral);letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:8px;}
+  .pm-info h3{font-family:'Sora';font-size:25px;line-height:1.15;margin:0 0 6px;}
+  .pm-host{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:14px;}
+  .pm-badges{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
+  .pm-badges .b-lvl{background:#fff;border:1px solid var(--border);padding:6px 11px;border-radius:9px;font-size:12px;}
+  .pm-badges .b-fmt{padding:6px 11px;border-radius:9px;font-size:10.5px;}
+  .pm-badges .pm-dur{font-family:'IBM Plex Mono';font-size:12px;color:var(--muted);}
+  .pm-desc{font-size:14px;color:var(--muted);line-height:1.7;margin:0 0 18px;}
+  .pm-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;}
+  .pm-actions a{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-weight:700;
+    font-size:13.5px;padding:12px 18px;border-radius:12px;}
+  .pm-actions a:hover{background:var(--coral);}
+  .pm-actions a.alt{background:#fff;color:var(--ink);border:1px solid var(--border);}
+  .pm-actions a.alt:hover{background:var(--ink);color:#fff;}
+  .pm-again{background:var(--gold);border:none;color:var(--ink);font-weight:800;font-size:13.5px;padding:12px 18px;
+    border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+  .pm-again:hover{background:#ffd863;}
+  .pm-again svg{width:15px;height:15px;}
+  .pm-fav{position:static;width:44px;height:44px;flex:none;}
+  .pm-hint{font-size:12px;color:var(--muted);margin-top:14px;}
+
+  @media (max-width:640px){
+    .pm-grid{grid-template-columns:1fr;gap:18px;}
+    .pm-cover{width:100%;height:auto;aspect-ratio:1/1;max-width:260px;margin:0 auto;}
+    .pm-card{padding:20px;border-radius:22px;}
+    .pm-info h3{font-size:21px;}
+    .pm-actions a,.pm-again{flex:1;justify-content:center;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .splash,.sp-mark,.sp-name,.sp-sub,.sp-bar,.sp-bar i,.sp-wave i,
+    .pm-card,.pm-cover,.pm-info>*,#view-home.hero-in *{animation:none!important;}
+  }
 </style>
 </head>
 <body>
@@ -838,6 +940,25 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="splash" id="splash" role="presentation">
+  <div class="sp-inner">
+    <div class="sp-mark">
+      <span class="sp-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    </div>
+    <div class="sp-name">Alterna Podcasts</div>
+    <div class="sp-sub">Türkçe dinle · турецкий в наушниках</div>
+    <div class="sp-bar"><i></i></div>
+  </div>
+</div>
+
+<div class="pod-modal" id="podModal" aria-hidden="true">
+  <div class="pm-backdrop" onclick="closePod()"></div>
+  <div class="pm-card" role="dialog" aria-modal="true" aria-label="Карточка подкаста">
+    <button class="alt-close pm-close" onclick="closePod()" aria-label="Закрыть">✕</button>
+    <div id="pmBody"></div>
   </div>
 </div>
 
@@ -1570,7 +1691,7 @@ document.addEventListener('keydown', e=>{
 
 let altSeen = false;
 try{ altSeen = !!localStorage.getItem('alterna_intro_v1'); }catch(e){ altSeen = false; }
-if(!altSeen) setTimeout(()=> openAlterna(0), 1200);
+if(!altSeen) setTimeout(()=> openAlterna(0), 2900);
 
 /* ============================================================
    Мои подкасты — личный список в localStorage
@@ -1852,6 +1973,115 @@ clearFavs = function(){
 })();
 
 renderBundles();
+
+/* ============================================================
+   Заставка при открытии сайта
+   ============================================================ */
+(function(){
+  const sp = document.getElementById('splash');
+  if(!sp) return;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.classList.add('splash-on');
+  let finished = false;
+  function heroIn(){
+    const home = document.getElementById('view-home');
+    if(home){ home.classList.add('hero-in'); setTimeout(()=> home.classList.remove('hero-in'), 2200); }
+  }
+  function finish(){
+    if(finished) return;
+    finished = true;
+    sp.classList.add('gone');
+    document.body.classList.remove('splash-on');
+    heroIn();
+    setTimeout(()=>{ if(sp.parentNode) sp.parentNode.removeChild(sp); }, 700);
+  }
+  if(reduced){ finish(); return; }
+  setTimeout(finish, 1850);
+  sp.addEventListener('click', finish);
+  document.addEventListener('keydown', function once(e){
+    if(e.key === 'Escape'){ finish(); document.removeEventListener('keydown', once); }
+  });
+  window.addEventListener('load', ()=> setTimeout(finish, 1850));
+})();
+
+/* ============================================================
+   Карточка случайного подкаста
+   ============================================================ */
+const DICE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1.4" fill="currentColor" stroke="none"/></svg>';
+let pmPool = null;
+let pmLast = null;
+
+function podCardHtml(id, kicker){
+  const p = POD[id];
+  if(!p) return '';
+  const item = Object.assign({id:id}, p);
+  return '<div class="pm-grid">'
+    + '<div class="pm-cover">' + coverInner(item) + '</div>'
+    + '<div class="pm-info">'
+      + '<div><div class="pm-kicker">' + (kicker || 'Случайный подкаст') + '</div>'
+        + '<h3>' + p.name + '</h3>'
+        + '<div class="pm-host">' + p.host + '</div></div>'
+      + '<div class="pm-badges">'
+        + p.levels.map(l=> '<span class="b-lvl">' + l + '</span>').join('')
+        + '<span class="b-fmt fmt-' + p.fmt + '">' + FMT[p.fmt] + '</span>'
+        + '<span class="pm-dur">' + p.dur + ' мин в среднем</span>'
+      + '</div>'
+      + '<p class="pm-desc">' + p.desc + '</p>'
+      + '<div class="pm-actions">'
+        + '<a href="' + p.apple + '" target="_blank" rel="noopener">Слушать в Apple Podcasts</a>'
+        + (p.spotify ? '<a class="alt" href="' + p.spotify + '" target="_blank" rel="noopener">Spotify</a>' : '')
+        + '<button class="pm-again" onclick="randomPodcast()">' + DICE_SVG + 'Ещё раз</button>'
+        + favBtnHtml(id, 'row').replace('class="fav-btn fav-row', 'class="fav-btn fav-row pm-fav')
+      + '</div>'
+      + '<div class="pm-hint">Уровень подсказывает, насколько сложно будет на слух. Сердечко добавит подкаст в раздел «Мои».</div>'
+    + '</div></div>';
+}
+
+function openPod(id, kicker){
+  const body = document.getElementById('pmBody');
+  const m = document.getElementById('podModal');
+  if(!body || !m || !POD[id]) return;
+  body.innerHTML = podCardHtml(id, kicker);
+  if(!m.classList.contains('open')){
+    m.classList.add('open');
+    m.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  } else {
+    const card = m.querySelector('.pm-card');
+    card.style.animation = 'none';
+    void card.offsetWidth;
+    card.style.animation = '';
+  }
+  pmLast = id;
+}
+
+function closePod(){
+  const m = document.getElementById('podModal');
+  if(!m || !m.classList.contains('open')) return;
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden','true');
+  if(!document.getElementById('altModal').classList.contains('open')) document.body.style.overflow = '';
+}
+
+/* «Случайный подкаст» в шапке открывает карточку, а не внешнюю ссылку */
+randomPodcast = function(){
+  const ids = podIds();
+  if(!pmPool || !pmPool.length) pmPool = ids.slice();
+  let idx = Math.floor(Math.random()*pmPool.length);
+  if(pmPool.length > 1 && pmPool[idx] === pmLast) idx = (idx + 1) % pmPool.length;
+  const id = pmPool.splice(idx,1)[0];
+  openPod(id, 'Случайный подкаст');
+};
+
+/* «Случайный из моих» тоже показывает карточку */
+randomFav = function(){
+  if(!favs.length){ toast('Список пока пуст'); return; }
+  let id = favs[Math.floor(Math.random()*favs.length)];
+  if(favs.length > 1 && id === pmLast) id = favs[(favs.indexOf(id) + 1) % favs.length];
+  openPod(id, 'Из ваших подкастов');
+};
+
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closePod(); });
 </script>
 </body>
 </html>
